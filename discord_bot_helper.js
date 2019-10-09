@@ -17,8 +17,8 @@ var readFile = () => {
 }
 
 var writeFile = (link) => {
-    let message = { 
-      message: link
+    let message = {
+        message: link
     };
     let data = JSON.stringify(message);
     fs.writeFileSync('message.json', data);
@@ -49,10 +49,10 @@ module.exports = (res) => {
         if (msg.content.startsWith('!update_forms')) {
             var msgArr = (msg.content.split(' '));
 
-            var link = msgArr.length > 0 ?  msgArr[1] : 'no link defined, please contact Kiki';
+            var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
             writeFile(link);
 
-            client.channels.get(channelID).send('Forms link updated!');
+            msg.reply('Forms link updated!');
         }
     });
 
