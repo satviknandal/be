@@ -1,5 +1,6 @@
 var auth = require('./auth.json');
 const Discord = require('discord.js');
+var atob = require('atob');
 
 const client = new Discord.Client();
 
@@ -20,5 +21,5 @@ module.exports = (res) => {
         }
     });
 
-    client.login(auth.token);
+    client.login(atob(auth.token));
 }
