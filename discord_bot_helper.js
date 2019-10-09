@@ -7,7 +7,7 @@ const fs = require('fs');
 
 
 const channelID = "588743997665705985";
-const guildMember = "<@631542036914241546>";
+const guildMember = "<@&442657945017253892>";
 const client = new Discord.Client();
 
 
