@@ -5,10 +5,21 @@ var schedule = require('node-schedule');
 const fs = require('fs');
 
 
-
 const channelID = "588743997665705985";
 const guildMember = "<@&442657945017253892>";
 const client = new Discord.Client();
+
+var wed = new schedule.RecurrenceRule();
+wed.dayOfWeek = 3;
+wed.hour = 9;
+
+var thurs = new schedule.RecurrenceRule();
+thurs.dayOfWeek = 4;
+thurs.hour = 9;
+
+var fri = new schedule.RecurrenceRule();
+fri.dayOfWeek = 5;
+fri.hour = 9;
 
 
 var readFile = () => {
@@ -30,29 +41,16 @@ var sendForms = () => {
 }
 
 var scheduler = () => {
-    var wed = new schedule.RecurrenceRule();
-    wed.dayOfWeek = 3;
-    wed.hour = 9;
 
     var wedSche = schedule.scheduleJob(wed, function () {
         sendForms();
     });
 
-    
-    var thurs = new schedule.RecurrenceRule();
-    thurs.dayOfWeek = 4;
-    thurs.hour = 9;
-
-    var wedSche = schedule.scheduleJob(thurs, function () {
+    var thursSche = schedule.scheduleJob(thurs, function () {
         sendForms();
     });
 
-
-    var fri = new schedule.RecurrenceRule();
-    fri.dayOfWeek = 5;
-    fri.hour = 9;
-
-    var wedSche = schedule.scheduleJob(fri, function () {
+    var friSche = schedule.scheduleJob(fri, function () {
         sendForms();
     });
 }
@@ -70,9 +68,7 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
-        if (msg.content === 'ping') {
-            msg.reply('Pong!');
-        }
+
         if (msg.content.startsWith('!update_forms')) {
             var msgArr = (msg.content.split(' '));
 
@@ -81,6 +77,12 @@ module.exports = (res) => {
 
             sendForms();
         }
+
+        if (msg.content === '!tell_time') {
+            var datetime = (new Date()).toLocaleDateString();
+            msg.reply(datetime);
+        }
+
     });
 
     client.login(atob(auth.token));
