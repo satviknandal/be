@@ -69,7 +69,7 @@ module.exports = (res) => {
 
     client.on('message', msg => {
 
-        if(message.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin") )){
+        if(msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin") )){
             if (msg.content.startsWith('!update_forms')) {
                 var msgArr = (msg.content.split(' '));
     
