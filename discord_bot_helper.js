@@ -69,23 +69,28 @@ module.exports = (res) => {
 
     client.on('message', msg => {
 
-        if (msg.content.startsWith('!update_forms')) {
-            var msgArr = (msg.content.split(' '));
-
-            var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
-            writeFile(link);
-
-            sendForms();
+        if(message.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin") )){
+            if (msg.content.startsWith('!update_forms')) {
+                var msgArr = (msg.content.split(' '));
+    
+                var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
+                writeFile(link);
+    
+                sendForms();
+            }
+    
+            if (msg.content === '!tell_time') {
+                var datetime = (new Date()).toLocaleString();
+                msg.reply(datetime);
+            }
+    
+            if (msg.content === '!rsvp_help') {
+                var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
+                msg.reply(guide);
+            }
         }
-
-        if (msg.content === '!tell_time') {
-            var datetime = (new Date()).toLocaleString();
-            msg.reply(datetime);
-        }
-
-        if (msg.content === '!rsvp_help') {
-            var guide = "1) making update to RSVP Sheet : \n !update_forms https://www.google.com \n2) to show me the current time : \n !tell_time";
-            msg.reply(guide);
+        else{
+            msg.reply("Sorry you dont have permission to use this :(");
         }
     });
 
