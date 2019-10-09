@@ -46,7 +46,7 @@ module.exports = (res) => {
         if (msg.content === 'ping') {
             msg.reply('Pong!');
         }
-        if (msg.content.startsWith('update')) {
+        if (msg.content.startsWith('!update_forms')) {
             var msgArr = (msg.content.split(' '));
 
             var link = msgArr.length > 0 ?  msgArr[1] : 'no link defined, please contact Kiki';
