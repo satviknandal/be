@@ -51,6 +51,8 @@ module.exports = (res) => {
 
             var link = msgArr.length > 0 ?  msgArr[1] : 'no link defined, please contact Kiki';
             writeFile(link);
+
+            client.channels.get(channelID).send('Forms link updated!');
         }
     });
 
