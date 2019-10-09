@@ -2,12 +2,31 @@ var auth = require('./auth.json');
 const Discord = require('discord.js');
 var atob = require('atob');
 var schedule = require('node-schedule');
+const fs = require('fs');
 
+
+
+const channelID = "600894246899286047";
 const client = new Discord.Client();
 
+
+var readFile = () => {
+    var rawdata = fs.readFileSync('message.json');
+    var message = JSON.parse(rawdata);
+    return message.message;
+}
+
+var writeFile = (link) => {
+    let message = { 
+      message: link
+    };
+    let data = JSON.stringify(message);
+    fs.writeFileSync('message.json', data);
+}
+
 var scheduler = () => {
-    return schedule.scheduleJob('40 * * * *', function () {
-        client.channels.get("600894246899286047").send('Scheduler Triggered at minute 40!!');
+    return schedule.scheduleJob('30 * * * *', function () {
+        client.channels.get(channelID).send('Here are the forms for this week! : ' + readFile());
     });
 }
 
@@ -26,6 +45,12 @@ module.exports = (res) => {
     client.on('message', msg => {
         if (msg.content === 'ping') {
             msg.reply('Pong!');
+        }
+        if (msg.content.startsWith('update')) {
+            var msgArr = (msg.content.split(' '));
+
+            var link = msgArr.length > 0 ?  msgArr[1] : 'no link defined, please contact Kiki';
+            writeFile(link);
         }
     });
 
