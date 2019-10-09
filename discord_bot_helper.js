@@ -11,15 +11,15 @@ const client = new Discord.Client();
 
 var wed = new schedule.RecurrenceRule();
 wed.dayOfWeek = 3;
-wed.hour = 9;
+wed.hour = 21;
 
 var thurs = new schedule.RecurrenceRule();
 thurs.dayOfWeek = 4;
-thurs.hour = 9;
+thurs.hour = 21;
 
 var fri = new schedule.RecurrenceRule();
 fri.dayOfWeek = 5;
-fri.hour = 9;
+fri.hour = 21;
 
 
 var readFile = () => {
