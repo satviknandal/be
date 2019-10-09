@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 
-const channelID = "600894246899286047";
+const channelID = "588743997665705985";
 const client = new Discord.Client();
 
 
@@ -25,7 +25,7 @@ var writeFile = (link) => {
 }
 
 var scheduler = () => {
-    return schedule.scheduleJob('23 * * * *', function () {
+    return schedule.scheduleJob('30 * * * *', function () {
         client.channels.get(channelID).send('Here are the forms for this week! : ' + readFile());
     });
 }
