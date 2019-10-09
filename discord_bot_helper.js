@@ -84,7 +84,7 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!rsvp_help') {
-            var guide = "1)making update to RSVP Sheet : \n !update_forms https://www.google.com \n2)to show me the current time : \n !tell_time";
+            var guide = "1) making update to RSVP Sheet : \n !update_forms https://www.google.com \n2) to show me the current time : \n !tell_time";
             msg.reply(guide);
         }
     });
