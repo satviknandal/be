@@ -25,7 +25,7 @@ var writeFile = (link) => {
 }
 
 var scheduler = () => {
-    return schedule.scheduleJob('30 * * * *', function () {
+    return schedule.scheduleJob('23 * * * *', function () {
         client.channels.get(channelID).send('Here are the forms for this week! : ' + readFile());
     });
 }
