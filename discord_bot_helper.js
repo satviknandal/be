@@ -7,6 +7,7 @@ const fs = require('fs');
 
 
 const channelID = "588743997665705985";
+const guildMember = "<@631542036914241546>";
 const client = new Discord.Client();
 
 
@@ -24,9 +25,35 @@ var writeFile = (link) => {
     fs.writeFileSync('message.json', data);
 }
 
+var sendForms = () => {
+    client.channels.get(channelID).send(guildMember + ' Here are the forms for this week! : ' + readFile());
+}
+
 var scheduler = () => {
-    return schedule.scheduleJob('30 * * * *', function () {
-        client.channels.get(channelID).send('Here are the forms for this week! : ' + readFile());
+    var wed = new schedule.RecurrenceRule();
+    wed.dayOfWeek = 3;
+    wed.hour = 9;
+
+    var wedSche = schedule.scheduleJob(wed, function () {
+        sendForms();
+    });
+
+    
+    var thurs = new schedule.RecurrenceRule();
+    thurs.dayOfWeek = 4;
+    thurs.hour = 9;
+
+    var wedSche = schedule.scheduleJob(thurs, function () {
+        sendForms();
+    });
+
+
+    var fri = new schedule.RecurrenceRule();
+    fri.dayOfWeek = 5;
+    fri.hour = 9;
+
+    var wedSche = schedule.scheduleJob(fri, function () {
+        sendForms();
     });
 }
 
@@ -52,7 +79,7 @@ module.exports = (res) => {
             var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
             writeFile(link);
 
-            msg.reply('Forms link updated!');
+            sendForms();
         }
     });
 
