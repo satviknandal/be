@@ -79,10 +79,14 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!tell_time') {
-            var datetime = (new Date()).toLocaleDateString();
+            var datetime = (new Date()).toLocaleString();
             msg.reply(datetime);
         }
 
+        if (msg.content === '!rsvp_help') {
+            var guide = "1)making update to RSVP Sheet : \n !update_forms https://www.google.com \n2)to show me the current time : \n !tell_time";
+            msg.reply(guide);
+        }
     });
 
     client.login(atob(auth.token));
