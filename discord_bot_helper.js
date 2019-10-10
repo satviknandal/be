@@ -61,8 +61,7 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
-
-        
+                
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
@@ -91,11 +90,12 @@ module.exports = (res) => {
         else {
             client.channels.get(id).send("Sorry you dont have permission to use this :(");
         }
-        // msg.delete();
+
+        msg.delete();
         
-        // if (msg) {
-        //     delete msg;
-        // }
+        if (msg) {
+            delete msg;
+        }
 
     });
 
