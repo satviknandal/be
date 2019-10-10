@@ -87,7 +87,7 @@ getGoogleSheet = (msg) => {
             var completed = result;
 
             console.log(JSON.stringify(msg.guild.roles));
-            
+
             var discordGuildMembers = msg.guild.roles.find(role => role.name === "Guild Members").members;
 
             console.log(JSON.stringify(discordGuildMembers));
@@ -106,6 +106,7 @@ getGoogleSheet = (msg) => {
             // console.log(JSON.stringify(discordUncompletedMembers));
         })
         .catch((err) => {
+            console.log(err);
             msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
         });
 }
