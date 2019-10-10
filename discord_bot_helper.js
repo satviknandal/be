@@ -76,7 +76,7 @@ var filterAttendance = () => {
     // }
 }
 
-getGoogleSheet = () => {
+getGoogleSheet = (msg) => {
     gsjson({
         spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
         credentials: './google-generated-creds.json'
@@ -116,8 +116,11 @@ getGoogleSheet = () => {
             console.log('unCompletedmembers : ', discordUncompletedMembers);
 
             var spammer = discordUncompletedMembers.join(',');
-            client.channels.get(channelID).send(guildMember + ' Please fill up the forms! ' +
-                readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me);
+            var spamMessage = guildMember + ' Please fill up the forms! ' +
+                readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
+            
+            client.channels.get(channelID).send(spamMessage);
+            msg.channel.send('Announcements Updated');
         })
         .catch((err) => {
             console.log(err);
@@ -163,7 +166,7 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
-            getGoogleSheet();
+            getGoogleSheet(msg);
         }
     });
 
