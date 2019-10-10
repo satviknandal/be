@@ -151,6 +151,9 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
+
+            console.log(msg.guild.roles)
+
             getGoogleSheet(msg);
         }
     });
