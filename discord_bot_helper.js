@@ -7,7 +7,9 @@ var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
 
 const channelID = "588743997665705985";
+const guildMemberRoleNumber = "442657945017253892";
 const guildMember = "<@&442657945017253892>";
+const me = "<@548897775576678442>";
 const client = new Discord.Client();
 
 var readFile = () => {
@@ -49,7 +51,7 @@ var scheduler = () => {
     schedulerProcess(5, 8, 51);
 }
 
-checkAdminRights = (msg) => {
+var checkAdminRights = (msg) => {
     var right = msg.member.roles.some(role => role.name.includes("Officer") || role.name.includes("Admin")
         || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
 
@@ -61,19 +63,47 @@ checkAdminRights = (msg) => {
     return right;
 }
 
-getGoogleSheet = () => {
+var filterAttendance = () => {
+    // var propertyArr = Object.keys(data[0]).filter((prop) => prop.startsWith("areYouAbleToJoinSiegeWar"));
+
+    // if (propertyArr.length > 0) {
+    //     var property = propertyArr[0];
+    //     data.filter((row)=> {
+    //        row[propertyArr].toLowerCase() == 'no' 
+    //     })
+    // }
+    // else {
+    //     msg.channel.send('Sorry not able to read sheet! Property reading has failed :( ' + me + ' please help!');
+    // }
+}
+
+getGoogleSheet = (msg) => {
     gsjson({
         spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
         credentials: './google-generated-creds.json'
         // other options...
     })
-        .then(function (result) {
-            console.log(result.length);
-            console.log(result);
+        .then((result) => {
+            var completed = Array.isArray(result) ? result : JSON.parse(result);
+
+            var discordGuildMembers = msg.guild.roles.get(guildMemberRoleNumber).members;
+
+            var discordCompletedMembers = completed.map((complete) => {
+                return discordGuildMembers.filter(
+                    (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
+                )[0];
+            })
+            
+            var discordUncompletedMembers = discordGuildMembers.filter((member) => {
+                var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
+                console.log(ind, member.nickname)
+                return ind === -1 ? true : false;
+            })
+
+            console.log(JSON.stringify(discordUncompletedMembers));
         })
-        .catch(function (err) {
-            console.log(err.message);
-            console.log(err.stack);
+        .catch((err) => {
+            msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
         });
 }
 
@@ -91,6 +121,8 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
+
+
 
         if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
 
