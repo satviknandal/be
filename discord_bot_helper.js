@@ -75,6 +75,11 @@ module.exports = (res) => {
             msg.reply(message);
         }
 
+        if (msg.content === '!tell_time') {
+            var datetime = (new Date()).toLocaleString();
+            msg.reply(datetime);
+        }
+
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
@@ -85,11 +90,6 @@ module.exports = (res) => {
                 writeFile(link);
 
                 sendForms();
-            }
-
-            if (msg.content === '!tell_time') {
-                var datetime = (new Date()).toLocaleString();
-                msg.reply(datetime);
             }
 
             if (msg.content === '!rsvp_help') {
