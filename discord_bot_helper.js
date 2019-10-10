@@ -42,9 +42,8 @@ var scheduler = () => {
     schedulerProcess(3, 21, 1);
     schedulerProcess(4, 21, 1);
     schedulerProcess(5, 21, 1);
-    schedulerProcess(3, 8, 15);
-    schedulerProcess(4, 8, 15);
-    schedulerProcess(5, 8, 15);
+    schedulerProcess(5, 6, 45);
+    schedulerProcess(6, 6, 45);
 }
 
 
