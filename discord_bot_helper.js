@@ -6,6 +6,7 @@ const fs = require('fs');
 var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
 
+const guildID = "442656148739457034";
 const channelID = "588743997665705985";
 const guildMemberRoleNumber = "442657945017253892";
 const guildMember = "<@&442657945017253892>";
@@ -76,14 +77,14 @@ var filterAttendance = () => {
     // }
 }
 
-getGoogleSheet = (msg) => {
+getGoogleSheet = () => {
     gsjson({
         spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
         credentials: './google-generated-creds.json'
         // other options...
     })
         .then((completed) => {
-            var discordGuildMembers = msg.guild.roles.find("id", guildMemberRoleNumber).members;
+            var discordGuildMembers = client.guilds.get(guildID).roles.find("id", guildMemberRoleNumber).members;
             var discordCompletedMembers = completed.map((complete) => {
                 return discordGuildMembers.filter(
                     (member) => {
@@ -124,6 +125,8 @@ module.exports = (res) => {
         }
         var sche = scheduler();
 
+        getGoogleSheet();
+
     });
 
     client.on('message', msg => {
@@ -150,9 +153,9 @@ module.exports = (res) => {
             msg.channel.send(datetime);
         }
 
-        if (msg.content === '!check_members' && checkAdminRights(msg)) {
-            getGoogleSheet(msg);
-        }
+        // if (msg.content === '!check_members' && checkAdminRights(msg)) {
+        //     getGoogleSheet(msg);
+        // }
     });
 
     client.login(atob(auth.token));
