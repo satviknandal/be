@@ -70,6 +70,11 @@ module.exports = (res) => {
             msg.reply(message);
         }
 
+        if (msg.content === '!pantek_pantek') {
+            var message = "\n <@200596332338085898> really is a pantek wkwkwkwkwk";
+            msg.reply(message);
+        }
+
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
