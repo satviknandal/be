@@ -76,18 +76,23 @@ module.exports = (res) => {
 
             if (msg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-                msg.reply(guide);
+                client.channels.get(msg.channel.id).send(guide);
             }
 
             if (msg.content === '!tell_time') {
                 var datetime = (new Date()).toLocaleString();
-                msg.reply(datetime);
+                client.channels.get(msg.channel.id).send(datetime);
             }
         }
         else {
-            msg.reply("Sorry you dont have permission to use this :(");
+            client.channels.get(msg.channel.id).send("Sorry you dont have permission to use this :(");
         }
         msg.delete();
+        
+        if (msg) {
+            delete msg;
+        }
+
     });
 
     client.login(atob(auth.token));
