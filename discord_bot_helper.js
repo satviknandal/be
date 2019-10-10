@@ -49,7 +49,7 @@ var scheduler = () => {
 }
 
 checkAdminRights = (msg) => {
-    var right = msg.guild.roles.some(role => role.name.includes("Officer") || role.name.includes("Admin")
+    var right = msg.member.roles.some(role => role.name.includes("Officer") || role.name.includes("Admin")
         || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
 
     if (!right) {
