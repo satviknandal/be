@@ -61,7 +61,7 @@ module.exports = (res) => {
     client.on('message', msg => {
 
         if (msg.content === '!nanosquad_goblok') {
-            var message = "\n Nanosquad satu orang anjing goblok";
+            var message = "\n <@200596332338085898> satu orang anjing goblok";
             msg.reply(message);
         }
 
