@@ -88,7 +88,7 @@ getGoogleSheet = (msg) => {
             var discordCompletedMembers = completed.map((complete) => {
                 console.log(complete);
                 return discordGuildMembers.filter(
-                    (member) => member.nickname.toLowerCase().includes(complete["familyName"].toLowerCase())
+                    (member) => member.nickname.toLowerCase().includes(complete.familyName.toLowerCase())
                 )[0];
             })
 
