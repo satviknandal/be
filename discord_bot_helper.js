@@ -91,7 +91,9 @@ module.exports = (res) => {
             client.channels.get(id).send("Sorry you dont have permission to use this :(");
         }
 
-        setTimeout(msg.delete(), 2000);
+        setTimeout(()=>{
+            msg.delete();
+        }, 2000);
     });
 
     client.login(atob(auth.token));
