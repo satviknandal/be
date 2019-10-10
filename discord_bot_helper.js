@@ -49,13 +49,14 @@ var scheduler = () => {
 }
 
 checkAdminRights = (msg) => {
-    var right = msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
+    var right = msg.guild.roles.some(role => role.name.includes("Officer") || role.name.includes("Admin")
         || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
 
     if (!right) {
         msg.delete(1000);
         msg.channel.send("Sorry you dont have permission to use this :(");
     }
+    console.log(right);
     return right;
 }
 
@@ -71,8 +72,6 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
-
-        var id = msg.channel.id;
 
         if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
 
