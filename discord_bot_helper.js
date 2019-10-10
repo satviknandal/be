@@ -12,6 +12,7 @@ const client = new Discord.Client();
 var readFile = () => {
     var rawdata = fs.readFileSync('message.json');
     var message = JSON.parse(rawdata);
+    fs.close();
     return message.message;
 }
 
@@ -21,6 +22,7 @@ var writeFile = (link) => {
     };
     let data = JSON.stringify(message);
     fs.writeFileSync('message.json', data);
+    fs.close();
 }
 
 var sendForms = () => {
@@ -60,26 +62,6 @@ module.exports = (res) => {
 
     client.on('message', msg => {
 
-        if (msg.content === '!nanosquad_goblok') {
-            var message = "\n <@200596332338085898> <3";
-            msg.reply(message);
-        }
-
-        if (msg.content === '!nanosquad_pantek') {
-            var message = "\n <@200596332338085898> <3";
-            msg.reply(message);
-        }
-
-        if (msg.content === '!pantek_pantek') {
-            var message = "\n <@200596332338085898> <3";
-            msg.reply(message);
-        }
-
-        if (msg.content === '!tell_time') {
-            var datetime = (new Date()).toLocaleString();
-            msg.reply(datetime);
-        }
-
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
@@ -94,12 +76,18 @@ module.exports = (res) => {
 
             if (msg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-                msg.reply(guide);
+                msg.channel.send(guide);
+            }
+
+            if (msg.content === '!tell_time') {
+                var datetime = (new Date()).toLocaleString();
+                msg.channel.send(datetime);
             }
         }
         else {
             msg.reply("Sorry you dont have permission to use this :(");
         }
+        msg.delete();
     });
 
     client.login(atob(auth.token));
