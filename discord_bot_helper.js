@@ -59,7 +59,6 @@ var checkAdminRights = (msg) => {
         msg.delete(1000);
         msg.reply("Sorry you dont have permission to use this :(");
     }
-    console.log(right);
     return right;
 }
 
@@ -89,8 +88,11 @@ getGoogleSheet = (msg) => {
                 return discordGuildMembers.filter(
                     (member) => {
                         console.log('complete : ', complete.familyName);
-                        console.log('member : ', member.user.username);
-                        member.user.username.toLowerCase().includes(complete.familyName.toLowerCase())
+                        console.log('member username : ', member.user.username);
+                        console.log('member nickname : ', member.nickname);
+                        var compare = member.user.username.toString().toLowerCase().includes(complete.familyName.toLowerCase()) || 
+                        member.nickname.toString().toLowerCase().includes(complete.familyName.toLowerCase());
+                        console.log('comparator : ', compare);
                     }
                 )[0];
             })
