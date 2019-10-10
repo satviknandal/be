@@ -16,7 +16,6 @@ const client = new Discord.Client();
 var readFile = () => {
     var rawdata = fs.readFileSync('message.json');
     var message = JSON.parse(rawdata);
-    fs.close();
     return message.message;
 }
 
@@ -26,7 +25,6 @@ var writeFile = (link) => {
     };
     let data = JSON.stringify(message);
     fs.writeFileSync('message.json', data);
-    fs.close();
 }
 
 var sendForms = () => {
@@ -118,7 +116,7 @@ getGoogleSheet = (msg) => {
             var spammer = discordUncompletedMembers.join(',');
             var spamMessage = guildMember + ' Please fill up the forms! ' +
                 readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
-            
+            console.log('Message : ' + spamMessage);
             client.channels.get(channelID).send(spamMessage);
             msg.channel.send('Announcements Updated');
         })
