@@ -94,7 +94,11 @@ getGoogleSheet = () => {
                             nickName.toString().toLowerCase().includes(complete.familyName.toLowerCase());
                         return compare;
                     }
-                );
+                ).map((member) => {
+                    return {
+                        'username': member.user.username
+                    }
+                });
                 console.log(filterRes);
                 return filterRes[0];
             })
