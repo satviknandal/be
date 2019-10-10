@@ -86,26 +86,21 @@ getGoogleSheet = (msg) => {
         .then((result) => {
             var completed = result;
 
-            console.log('Guild ID : ', JSON.stringify(msg.guild.id));
+           
+            var discordGuildMembers =  msg.guild.roles.find("id", guildMemberRoleNumber).members;
 
-            console.log('Roles : ', JSON.stringify(msg.guild.roles));
+            console.log(discordGuildMembers);
+            var discordCompletedMembers = completed.map((complete) => {
+                return discordGuildMembers.filter(
+                    (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
+                )[0];
+            })
 
-            // var discordGuildMembers = msg.guild.roles.find(role => role.id === "Guild Members").members;
-
-            // console.log(JSON.stringify(discordGuildMembers));
-            // var discordCompletedMembers = completed.map((complete) => {
-            //     return discordGuildMembers.filter(
-            //         (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
-            //     )[0];
-            // })
-
-            // var discordUncompletedMembers = discordGuildMembers.filter((member) => {
-            //     var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
-            //     console.log(ind, member.nickname)
-            //     return ind === -1 ? true : false;
-            // })
-
-            // console.log(JSON.stringify(discordUncompletedMembers));
+            var discordUncompletedMembers = discordGuildMembers.filter((member) => {
+                var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
+                console.log(ind, member.nickname)
+                return ind === -1 ? true : false;
+            })
         })
         .catch((err) => {
             console.log(err);
@@ -151,9 +146,6 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
-
-            console.log(msg.guild.roles.find("id", guildMemberRoleNumber))
-
             getGoogleSheet(msg);
         }
     });
