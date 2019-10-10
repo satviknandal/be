@@ -88,10 +88,12 @@ getGoogleSheet = (msg) => {
                 return discordGuildMembers.filter(
                     (member) => {
                         console.log('complete : ', complete.familyName);
-                        console.log('member username : ', member.user.username);
-                        console.log('member nickname : ', member.nickname);
-                        var compare = member.user.username.toString().toLowerCase().includes(complete.familyName.toLowerCase()) || 
-                        member.nickname.toString().toLowerCase().includes(complete.familyName.toLowerCase());
+                        var userName = member.user.username ? member.user.username : '';
+                        var nickName = member.nickname ? member.nickname : '';
+                        console.log('member username : ', userName);
+                        console.log('member nickname : ', nickName);
+                        var compare = userName.toString().toLowerCase().includes(complete.familyName.toLowerCase()) ||
+                            nickName.toString().toLowerCase().includes(complete.familyName.toLowerCase());
                         console.log('comparator : ', compare);
                     }
                 )[0];
