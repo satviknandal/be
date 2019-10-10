@@ -29,9 +29,9 @@ var sendForms = () => {
 
 var schedulerProcess = (dayOfWeek, hour, minute) => {
     var rule = new schedule.RecurrenceRule();
-    wed.dayOfWeek = dayOfWeek;
-    wed.hour = hour;
-    wed.minute = minute;
+    rule.dayOfWeek = dayOfWeek;
+    rule.hour = hour;
+    rule.minute = minute;
     var sche = schedule.scheduleJob(rule, function () {
         sendForms();
     });
