@@ -60,16 +60,16 @@ module.exports = (res) => {
         var sche = scheduler();
     });
 
-    client.on('message', msg => {
+    client.on('message', sg => {
 
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
-            var id = msg.channel.id;
-            msg.delete(1000);
+            var sg = { ...msg };
+            msg.delete();
 
-            if (msg.content.startsWith('!update_forms')) {
-                var msgArr = (msg.content.split(' '));
+            if (sg.content.startsWith('!update_forms')) {
+                var msgArr = (sg.content.split(' '));
 
                 var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
                 writeFile(link);
@@ -77,21 +77,19 @@ module.exports = (res) => {
                 sendForms();
             }
 
-            if (msg.content === '!rsvp_help') {
+            if (sg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-                client.channels.get(id).send(guide);
+                client.channels.get(sg.id).send(guide);
             }
 
-            if (msg.content === '!tell_time') {
+            if (sg.content === '!tell_time') {
                 var datetime = (new Date()).toLocaleString();
-                client.channels.get(id).send(datetime);
+                client.channels.get(sg.id).send(datetime);
             }
         }
         else {
-            client.channels.get(id).send("Sorry you dont have permission to use this :(");
+            client.channels.get(sg.id).send("Sorry you dont have permission to use this :(");
         }
-
-        
     });
 
     client.login(atob(auth.token));
