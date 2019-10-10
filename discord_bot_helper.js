@@ -107,10 +107,10 @@ getGoogleSheet = () => {
             console.log('completed members : ', discordCompletedMembers);
 
             var discordUncompletedMembers = discordGuildMembers.filter((member) => {
-                var ind = discordCompletedMembers.findIndex(i => {
+                var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
                     console.log('member username : ', userName);
-                    return i.user.username === member.user.username
+                    return complete.username === member.user.username
                 });
                 return ind === -1 ? true : false;
             })
