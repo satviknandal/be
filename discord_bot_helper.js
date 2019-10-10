@@ -60,7 +60,7 @@ module.exports = (res) => {
         var sche = scheduler();
     });
 
-    client.on('message', sg => {
+    client.on('message', msg => {
         var sg = { ...msg };
         msg.delete();
         
