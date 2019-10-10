@@ -93,7 +93,7 @@ getGoogleSheet = (msg) => {
                     (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
                 )[0];
             })
-            
+
             var discordUncompletedMembers = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
                 console.log(ind, member.nickname)
@@ -117,12 +117,10 @@ module.exports = (res) => {
             console.log(`Logged in as ${client.user.tag}!`);
         }
         var sche = scheduler();
-        getGoogleSheet();
+
     });
 
     client.on('message', msg => {
-
-
 
         if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
 
@@ -144,6 +142,10 @@ module.exports = (res) => {
             var datetime = (new Date()).toLocaleString();
             msg.delete(1000);
             msg.channel.send(datetime);
+        }
+
+        if (msg.content === '!check_members' && checkAdminRights(msg)) {
+            getGoogleSheet(msg);
         }
     });
 
