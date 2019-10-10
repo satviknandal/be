@@ -87,21 +87,22 @@ getGoogleSheet = (msg) => {
             var discordCompletedMembers = completed.map((complete) => {
                 return discordGuildMembers.filter(
                     (member) => {
-                        console.log('complete : ', complete.familyName);
                         var userName = member && member.user.username ? member.user.username : '';
                         var nickName = member && member.nickname ? member.nickname : '';
-                        console.log('member username : ', userName);
-                        console.log('member nickname : ', nickName);
                         var compare = userName.toString().toLowerCase().includes(complete.familyName.toLowerCase()) ||
                             nickName.toString().toLowerCase().includes(complete.familyName.toLowerCase());
-                        console.log('comparator : ', compare);
+                        return compare;
                     }
                 )[0];
             })
 
             var discordUncompletedMembers = discordGuildMembers.filter((member) => {
-                var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
-                console.log(ind, member.nickname)
+                var ind = discordCompletedMembers.findIndex(i => {
+                    var userName = member && member.user.username ? member.user.username : '';
+                    console.log('member username : ', userName);
+                    console.log('member nickname : ', nickName);
+                    return i.user.username === member.user.username
+                });
                 return ind === -1 ? true : false;
             })
         })
