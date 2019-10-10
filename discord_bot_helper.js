@@ -54,7 +54,7 @@ checkAdminRights = (msg) => {
 
     if (!right) {
         msg.delete(1000);
-        msg.channel.send("Sorry you dont have permission to use this :(");
+        msg.reply("Sorry you dont have permission to use this :(");
     }
     console.log(right);
     return right;
