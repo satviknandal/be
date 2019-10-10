@@ -61,7 +61,7 @@ checkAdminRights = (msg) => {
     return right;
 }
 
-getGoogleSheet() = () => {
+getGoogleSheet = () => {
     gsjson({
         spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
         credentials: './google-generated-creds.json'
