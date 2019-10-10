@@ -86,6 +86,8 @@ getGoogleSheet = (msg) => {
         .then((result) => {
             var completed = result;
 
+            console.log('Guild ID : ', JSON.stringify(msg.guild.id));
+
             console.log('Roles : ', JSON.stringify(msg.guild.roles));
 
             // var discordGuildMembers = msg.guild.roles.find(role => role.id === "Guild Members").members;
@@ -151,7 +153,6 @@ module.exports = (res) => {
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
             getGoogleSheet(msg);
         }
-
     });
 
     client.login(atob(auth.token));
