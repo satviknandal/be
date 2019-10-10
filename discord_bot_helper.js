@@ -83,16 +83,13 @@ getGoogleSheet = (msg) => {
         credentials: './google-generated-creds.json'
         // other options...
     })
-        .then((result) => {
-            var completed = result;
+        .then((completed) => {
+            var discordGuildMembers = msg.guild.roles.find("id", guildMemberRoleNumber).members;
 
-           
-            var discordGuildMembers =  msg.guild.roles.find("id", guildMemberRoleNumber).members;
-
-            console.log(discordGuildMembers);
+            console.log(completed);
             var discordCompletedMembers = completed.map((complete) => {
                 return discordGuildMembers.filter(
-                    (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
+                    (member) => member.nickname.toLowerCase().includes(complete["Family Name"].toLowerCase())
                 )[0];
             })
 
