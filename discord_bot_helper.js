@@ -9,22 +9,6 @@ const channelID = "588743997665705985";
 const guildMember = "<@&442657945017253892>";
 const client = new Discord.Client();
 
-var wed = new schedule.RecurrenceRule();
-wed.dayOfWeek = 3;
-wed.hour = 21;
-wed.minute = 0;
-
-var thurs = new schedule.RecurrenceRule();
-thurs.dayOfWeek = 4;
-thurs.hour = 21;
-wed.minute = 0;
-
-var fri = new schedule.RecurrenceRule();
-fri.dayOfWeek = 5;
-fri.hour = 21;
-wed.minute = 0;
-
-
 var readFile = () => {
     var rawdata = fs.readFileSync('message.json');
     var message = JSON.parse(rawdata);
@@ -43,19 +27,24 @@ var sendForms = () => {
     client.channels.get(channelID).send(guildMember + ' Here are the forms for this week! : ' + readFile());
 }
 
+var schedulerProcess = (dayOfWeek, hour, minute) => {
+    var rule = new schedule.RecurrenceRule();
+    wed.dayOfWeek = dayOfWeek;
+    wed.hour = hour;
+    wed.minute = minute;
+    var sche = schedule.scheduleJob(rule, function () {
+        sendForms();
+    });
+
+}
+
 var scheduler = () => {
-
-    var wedSche = schedule.scheduleJob(wed, function () {
-        sendForms();
-    });
-
-    var thursSche = schedule.scheduleJob(thurs, function () {
-        sendForms();
-    });
-
-    var friSche = schedule.scheduleJob(fri, function () {
-        sendForms();
-    });
+    schedulerProcess(3, 21, 1);
+    schedulerProcess(4, 21, 1);
+    schedulerProcess(5, 21, 1);
+    schedulerProcess(3, 8, 15);
+    schedulerProcess(4, 8, 15);
+    schedulerProcess(5, 8, 15);
 }
 
 
