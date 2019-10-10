@@ -66,7 +66,7 @@ module.exports = (res) => {
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
-            msg.delete(1000);
+        
             if (msg.content.startsWith('!update_forms')) {
                 var msgArr = (msg.content.split(' '));
 
@@ -79,11 +79,13 @@ module.exports = (res) => {
 
             if (msg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
+                msg.delete(1000);
                 client.channels.get(id).send(guide);
             }
 
             if (msg.content === '!tell_time') {
                 var datetime = (new Date()).toLocaleString();
+                msg.delete(1000);
                 client.channels.get(id).send(datetime);
             }
         }
