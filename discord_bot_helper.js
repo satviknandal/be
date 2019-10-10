@@ -113,6 +113,8 @@ getGoogleSheet = () => {
                     return complete.username === member.user.username
                 });
                 return ind === -1 ? true : false;
+            }).map((user)=>{
+                return user.user.id;
             })
 
             console.log('unCompletedmembers : ', discordUncompletedMembers);
