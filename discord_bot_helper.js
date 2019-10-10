@@ -96,6 +96,8 @@ getGoogleSheet = (msg) => {
                 )[0];
             })
 
+            console.log('completed members : ', discordCompletedMembers);
+
             var discordUncompletedMembers = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(i => {
                     var userName = member && member.user.username ? member.user.username : '';
