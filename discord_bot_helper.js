@@ -95,16 +95,14 @@ getGoogleSheet = () => {
                         return compare;
                     }
                 )
-                    .filter((member) => member ? true : false)
                     .map((member) => {
                         return {
                             'username': member.user.username
                             // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
                         }
                     });
-                console.log(filterRes);
                 return filterRes[0];
-            })
+            }).filter((complete) => complete !== undefined);
 
             console.log('completed members : ', discordCompletedMembers);
 
@@ -116,6 +114,8 @@ getGoogleSheet = () => {
                 });
                 return ind === -1 ? true : false;
             })
+
+            console.log('unCompletedmembers : ', discordUncompletedMembers);
         })
         .catch((err) => {
             console.log(err);
