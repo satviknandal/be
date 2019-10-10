@@ -61,12 +61,12 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
- 
+
         var id = msg.channel.id;
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
-           
+
 
             if (msg.content.startsWith('!update_forms')) {
                 var msgArr = (msg.content.split(' '));
@@ -90,8 +90,11 @@ module.exports = (res) => {
         else {
             client.channels.get(id).send("Sorry you dont have permission to use this :(");
         }
-        var toBeDel = client.channels.get(id).fetchMessage(msg.id);
-        toBeDel.delete();
+
+        msg.channel.fetchMessage(msg.id).then((toBeDel) => {
+            toBeDel.delete();
+        });
+
 
     });
 
