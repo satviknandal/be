@@ -100,7 +100,6 @@ getGoogleSheet = (msg) => {
                 var ind = discordCompletedMembers.findIndex(i => {
                     var userName = member && member.user.username ? member.user.username : '';
                     console.log('member username : ', userName);
-                    console.log('member nickname : ', nickName);
                     return i.user.username === member.user.username
                 });
                 return ind === -1 ? true : false;
