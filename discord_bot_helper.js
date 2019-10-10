@@ -60,6 +60,11 @@ module.exports = (res) => {
 
     client.on('message', msg => {
 
+        if (msg.content === '!nanosquad_goblok') {
+            var message = "\n Nanosquad satu orang anjing goblok";
+            msg.reply(message);
+        }
+
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
