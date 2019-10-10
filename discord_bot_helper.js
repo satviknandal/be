@@ -84,7 +84,7 @@ getGoogleSheet = (msg) => {
         // other options...
     })
         .then((result) => {
-            var completed = Array.isArray(result) ? result : JSON.parse(result);
+            var completed = result;
 
             var discordGuildMembers = msg.guild.roles.get(guildMemberRoleNumber).members;
 
