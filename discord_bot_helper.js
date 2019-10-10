@@ -87,20 +87,21 @@ getGoogleSheet = (msg) => {
             var completed = result;
 
             var discordGuildMembers = msg.guild.roles.get(guildMemberRoleNumber).members;
+            
+            console.log(JSON.stringify(discordGuildMembers));
+            // var discordCompletedMembers = completed.map((complete) => {
+            //     return discordGuildMembers.filter(
+            //         (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
+            //     )[0];
+            // })
 
-            var discordCompletedMembers = completed.map((complete) => {
-                return discordGuildMembers.filter(
-                    (member) => member.nickname.toLowerCase().includes(complete.toLowerCase())
-                )[0];
-            })
+            // var discordUncompletedMembers = discordGuildMembers.filter((member) => {
+            //     var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
+            //     console.log(ind, member.nickname)
+            //     return ind === -1 ? true : false;
+            // })
 
-            var discordUncompletedMembers = discordGuildMembers.filter((member) => {
-                var ind = discordCompletedMembers.findIndex(i => i.nickname === member.nickname);
-                console.log(ind, member.nickname)
-                return ind === -1 ? true : false;
-            })
-
-            console.log(JSON.stringify(discordUncompletedMembers));
+            // console.log(JSON.stringify(discordUncompletedMembers));
         })
         .catch((err) => {
             msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
