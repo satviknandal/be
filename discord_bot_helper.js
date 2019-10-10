@@ -48,6 +48,15 @@ var scheduler = () => {
     schedulerProcess(5, 8, 51);
 }
 
+checkAdminRights = (msg) => {
+    var right = msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
+        || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
+
+    if (!right) {
+        msg.channel.send("Sorry you dont have permission to use this :(");
+    }
+    return right;
+}
 
 module.exports = (res) => {
 
@@ -63,39 +72,28 @@ module.exports = (res) => {
     client.on('message', msg => {
 
         var id = msg.channel.id;
-        if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
-            || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
-        )) {
-        
-            if (msg.content.startsWith('!update_forms')) {
-                var msgArr = (msg.content.split(' '));
 
-                var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
-                writeFile(link);
+        if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
 
-             
-                sendForms();
-            }
-
-            if (msg.content === '!rsvp_help') {
-                var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-                msg.delete(1000);
-                client.channels.get(id).send(guide);
-            }
-
-            if (msg.content === '!tell_time') {
-                var datetime = (new Date()).toLocaleString();
-                msg.delete(1000);
-                client.channels.get(id).send(datetime);
-            }
+            var msgArr = (msg.content.split(' '));
+            var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
+            msg.delete(1000);
+            writeFile(link);
+            sendForms();
         }
-        // else {
-        //     client.channels.get(id).send("Sorry you dont have permission to use this :(");
-        // }
 
-     
+        if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
+            var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
+            msg.delete(1000);
+            msg.channel.send(guide);
 
+        }
 
+        if (msg.content === '!tell_time' && checkAdminRights(msg)) {
+            var datetime = (new Date()).toLocaleString();
+            msg.delete(1000);
+            msg.channel.send(datetime);
+        }
     });
 
     client.login(atob(auth.token));
