@@ -66,14 +66,14 @@ module.exports = (res) => {
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
-
-
+            msg.delete(1000);
             if (msg.content.startsWith('!update_forms')) {
                 var msgArr = (msg.content.split(' '));
 
                 var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
                 writeFile(link);
 
+             
                 sendForms();
             }
 
@@ -87,13 +87,11 @@ module.exports = (res) => {
                 client.channels.get(id).send(datetime);
             }
         }
-        else {
-            client.channels.get(id).send("Sorry you dont have permission to use this :(");
-        }
+        // else {
+        //     client.channels.get(id).send("Sorry you dont have permission to use this :(");
+        // }
 
-        msg.channel.fetchMessage(msg.id).then((toBeDel) => {
-            toBeDel.delete();
-        });
+     
 
 
     });
