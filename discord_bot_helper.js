@@ -61,17 +61,17 @@ module.exports = (res) => {
     client.on('message', msg => {
 
         if (msg.content === '!nanosquad_goblok') {
-            var message = "\n <@200596332338085898> satu orang anjing goblok";
+            var message = "\n <@200596332338085898> <3";
             msg.reply(message);
         }
 
         if (msg.content === '!nanosquad_pantek') {
-            var message = "\n <@200596332338085898> satu orang anjing goblok pantek";
+            var message = "\n <@200596332338085898> <3";
             msg.reply(message);
         }
 
         if (msg.content === '!pantek_pantek') {
-            var message = "\n <@200596332338085898> really is a pantek wkwkwkwkwk";
+            var message = "\n <@200596332338085898> <3";
             msg.reply(message);
         }
 
