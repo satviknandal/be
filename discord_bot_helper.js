@@ -61,12 +61,12 @@ module.exports = (res) => {
     });
 
     client.on('message', msg => {
-        msg.delete(1000);
+ 
+        var id = msg.channel.id;
         if (msg.guild.roles.find(role => role.name.includes("Officer") || role.name.includes("Admin")
             || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator")
         )) {
-            
-            var id = msg.channel.id;
+           
 
             if (msg.content.startsWith('!update_forms')) {
                 var msgArr = (msg.content.split(' '));
@@ -79,17 +79,20 @@ module.exports = (res) => {
 
             if (msg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-               msg.channel.send(guide);
+                client.channels.get(id).send(guide);
             }
 
             if (msg.content === '!tell_time') {
                 var datetime = (new Date()).toLocaleString();
-                msg.channel.send(datetime);
+                client.channels.get(id).send(datetime);
             }
         }
         else {
-            msg.channel.send("Sorry you dont have permission to use this :(");
+            client.channels.get(id).send("Sorry you dont have permission to use this :(");
         }
+        var toBeDel = client.channels.get(id).fetchMessage(msg.id);
+        toBeDel.delete();
+
     });
 
     client.login(atob(auth.token));
