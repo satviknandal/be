@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "symmetric-rune-255520",
+  "private_key_id": "3bcdd511fbf8746cef7ee533f66e19eeee4f05ae",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDdHha2YaEOn8Z3\nFvmGLKV4/TN+P/UaKFwi8A2Ypsu8JSkvt5XE8n3ueSAclBSJGX2P1m9zWkS82+AN\n41nFWAycIvAWBDLLZCSn2pzdj7jJe5ciy1l+j3KXfDJndSNHljZmpwvULEZS/BUw\nhxv4uApgnmZaJmqADDA/UIQKCPSi+0C1IE4lAj/ZllTWyf2yQT+CYD6EQV1suy7a\nAGX9m3JRPc+gWs8PwLD5CloAGhM5nNWrHvNNaPsqvISiUM0jV+Q8RPZMHM/MJGHF\n2MA/MlIKLymyJeTtD7ATAzRj/HZiEEp4nuz9f5kgHcWHoUHmqEfg6yrE7/lAAjt3\nggLplF6nAgMBAAECggEALdcHiV7bB0+bUuQJ7cWCtn7zdmhm9TnJxBp1DyEBGquv\niqtqGq7U6aPlwtb2HOgSbkfbyhO8LVT98ZMg8LcMwi/CCyZqq1zC9qNtIsehXO/I\nyNdUYdb2QC5ouqb/nd8nvwdBfgaBu8Fz2SAhbeIlkJs2B9lv+cTNGcsk3Hm30bOX\nJT/KO8sp3Rddhs3Dx517+A9/cQLTw91MFdWfcNCatCEYgFZmU9FNn8N8Jk3jxwb6\nJrwrpMyWyTp5fQ5EhwpPtHvLWWusGmYANb/4pObfajTzzrbsrZk+zPmJHgnXvLKk\n3cTM7k5MeDr3ESrY1MyEExtwflfrS4Xu9hGmbHiewQKBgQD2O4uAIed9qY125YT6\nbe/qp9VZ6WbY9TO3et2ORcBD0oWxUecNMUu+DiibnQF0u0rjzqMTBcUq4og3A8Yg\ntWjvYyiSKaaO1PRX8OvMlIOzeftWz5cuvh85iFPMUWH19m3RSa9hzCBl/yiqiozJ\nssr8wBERuotBbubU5G4cFZEF5wKBgQDl44EMidtQVCHNbI7pEaowmbKX8fJd08n6\n9praYrKm0S02AuC6bn5rEFG78QsbkdrNTadY78iZ+QY616qg35LvjqpN+NudeF43\n+ycvjLtoRJTmEDBhSguZBz6uXyQ0dQxw3btieQizAqt24THwVoI9oo1cZXDUuzes\neqpgOfVJQQKBgHC1+voxCtTjuuSU1VUI48xm/OtGQpTHUOAI9se8N/ETuazcT8Yj\nLYeW1ZG9wb/cR8CVguIfPwyNW0rLiHLKd3k0y4p0VFCHPD3RAy7HQK30BU/MgGie\nEI72T110V0IOhmBJuWUr2hy2Orgt6ZoeJHqjtGyIFlxiVnlXAuwKFzM7AoGBAK1W\nICzbGUF1XlNtIkh8aE3i5fWJmczDb01KejJmLvx3RlauTtJjk/CYSniiZFSyYj9g\n6Oi3TBNE4Dyn9uD8EueMM789ACK46pndRouk2n3hEEB0PnZtBVeqTcnetQbUpr/H\ngI3cYwHO5ohpfmUQZX2hvmLHng7Y5z6m8yZBLUDBAoGAEV9KsGZ1G5hx3zLMEonO\n5Y8Ndk1qmkVT+YdI6y/pTIMphBWPzWyeFTTXaiRPGOaM9ujFPnvkhGFHSIu2gWf5\nE4v2A8uFrSbZveZVOSjbdA6UeT1PVSSfaAE7PVPi4LDc3vr9LmCV1SauywnofHHM\n6CVIUhmkNXrmDGHD05VQ2YA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "discord-google-sheet@symmetric-rune-255520.iam.gserviceaccount.com",
+  "client_id": "117375439850832008850",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/discord-google-sheet%40symmetric-rune-255520.iam.gserviceaccount.com"
+}

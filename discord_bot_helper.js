@@ -3,7 +3,8 @@ const Discord = require('discord.js');
 var atob = require('atob');
 var schedule = require('node-schedule');
 const fs = require('fs');
-
+var gsjson = require('google-spreadsheet-to-json');
+var creds = require('./google-generated-creds.json');
 
 const channelID = "588743997665705985";
 const guildMember = "<@&442657945017253892>";
@@ -60,6 +61,23 @@ checkAdminRights = (msg) => {
     return right;
 }
 
+getGoogleSheet() = () => {
+    gsjson({
+        spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
+        credentials: './google-generated-creds.json'
+        // other options...
+    })
+        .then(function (result) {
+            console.log(result.length);
+            console.log(result);
+        })
+        .catch(function (err) {
+            console.log(err.message);
+            console.log(err.stack);
+        });
+}
+
+
 module.exports = (res) => {
 
     client.on('ready', () => {
@@ -69,6 +87,7 @@ module.exports = (res) => {
             console.log(`Logged in as ${client.user.tag}!`);
         }
         var sche = scheduler();
+        getGoogleSheet();
     });
 
     client.on('message', msg => {
