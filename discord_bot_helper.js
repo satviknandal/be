@@ -86,7 +86,7 @@ getGoogleSheet = (msg) => {
         .then((result) => {
             var completed = result;
 
-            console.log(JSON.stringify(msg.guild.roles));
+            console.log('Roles : ', JSON.stringify(msg.guild.roles));
 
             // var discordGuildMembers = msg.guild.roles.find(role => role.id === "Guild Members").members;
 
