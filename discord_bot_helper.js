@@ -41,7 +41,6 @@ var schedulerProcess = (dayOfWeek, hour, minute) => {
     var sche = schedule.scheduleJob(rule, function () {
         sendForms();
     });
-
 }
 
 var scheduler = () => {
@@ -104,20 +103,21 @@ getGoogleSheet = () => {
                 return filterRes[0];
             }).filter((complete) => complete !== undefined);
 
-            console.log('completed members : ', discordCompletedMembers);
-
             var discordUncompletedMembers = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
-                    console.log('member username : ', userName);
                     return complete.username === member.user.username
                 });
                 return ind === -1 ? true : false;
-            }).map((user)=>{
-                return user.user.id;
-            })
+            }).map((user) => {
+                return '<@' + user.user.id + '>';
+            });
 
             console.log('unCompletedmembers : ', discordUncompletedMembers);
+
+            var spammer = discordUncompletedMembers.join(',');
+            client.channels.get(channelID).send(guildMember + ' Please fill up the forms! ' +
+                readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me);
         })
         .catch((err) => {
             console.log(err);
@@ -135,8 +135,6 @@ module.exports = (res) => {
             console.log(`Logged in as ${client.user.tag}!`);
         }
         var sche = scheduler();
-
-        getGoogleSheet();
 
     });
 
@@ -164,9 +162,9 @@ module.exports = (res) => {
             msg.channel.send(datetime);
         }
 
-        // if (msg.content === '!check_members' && checkAdminRights(msg)) {
-        //     getGoogleSheet(msg);
-        // }
+        if (msg.content === '!check_members' && checkAdminRights(msg)) {
+            getGoogleSheet();
+        }
     });
 
     client.login(atob(auth.token));
