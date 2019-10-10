@@ -76,12 +76,12 @@ module.exports = (res) => {
 
             if (msg.content === '!rsvp_help') {
                 var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
-                msg.channel.send(guide);
+                msg.reply(guide);
             }
 
             if (msg.content === '!tell_time') {
                 var datetime = (new Date()).toLocaleString();
-                msg.channel.send(datetime);
+                msg.reply(datetime);
             }
         }
         else {
