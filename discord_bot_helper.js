@@ -53,6 +53,7 @@ checkAdminRights = (msg) => {
         || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
 
     if (!right) {
+        msg.delete(1000);
         msg.channel.send("Sorry you dont have permission to use this :(");
     }
     return right;
