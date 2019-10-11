@@ -35,13 +35,14 @@ var readSettings = () => {
     var spreadSheet = readFile('sheet.json');
 
     gsjson({
-        spreadsheetId: spreadSheetID.sheet,
+        spreadsheetId: spreadSheet.sheet,
         credentials: credentials,
         worksheet: spreadSheet.workSheet
         // other options...
     })
         .then((ws) => {
             console.log(ws);
+            msg.delete(1000);
         })
         .catch((err) => {
 
@@ -227,9 +228,9 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!read_settings' && checkAdminRights(msg)) {
-            readSettings();
+            readSettings(msg);
         }
-        
+
     });
 
     client.login(atob(auth.token));
