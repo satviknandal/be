@@ -123,7 +123,7 @@ var getGoogleSheet = (msg) => {
 
             var spammer = discordUncompletedMembers.join(',');
             var spamMessage = siegeMember + ' Please fill up the forms! ' +
-                readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
+                readFile('message.json') + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
             console.log('Message : ' + spamMessage);
             client.channels.get(channelID).send(spamMessage);
             msg.channel.send('Announcements Updated');
