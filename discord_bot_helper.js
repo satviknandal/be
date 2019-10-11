@@ -62,7 +62,7 @@ var schedulerController = (rule, control) => {
             sendForms();
         }
         else {
-            getGoogleSheet(null);
+            getGoogleSheet(null, control);
         }
     });
 
@@ -82,6 +82,7 @@ var scheduler = () => {
     schedulerProcess(5, 21, 1);
     schedulerProcess(4, 8, 51);
     schedulerProcess(5, 8, 51);
+    schedulerProcess(0, 21, 00, 'warning');
 }
 
 var checkAdminRights = (msg) => {
@@ -109,7 +110,7 @@ var filterAttendance = () => {
     // }
 }
 
-var getGoogleSheet = (msg) => {
+var getGoogleSheet = (msg, control) => {
 
     var credentials = atob(creds.json);
     console.log(credentials);
@@ -166,8 +167,13 @@ var getGoogleSheet = (msg) => {
             readSettings().then((ws) => {
                 var workS = ws[0];
 
-                var spamMessage = 'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
-                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
+                var spamMessage =  
+                control && control == 'warning' ?
+                'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
+                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
+                'Unfortunately the below list of siege members have failed to fill up RSVP for the week :(\n' + 
+                spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
+
                 console.log('Message : ' + spamMessage);
 
                 if (msg) {
@@ -242,6 +248,10 @@ module.exports = (res) => {
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
             getGoogleSheet(msg);
+        }
+
+        if (msg.content === '!warn_members' && checkAdminRights(msg)) {
+            getGoogleSheet(msg, 'warning');
         }
 
         if (msg.content === '!read_settings' && checkAdminRights(msg)) {
