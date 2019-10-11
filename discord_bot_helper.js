@@ -94,10 +94,11 @@ var getGoogleSheet = (msg) => {
             var discordCompletedMembers = completed.map((complete) => {
                 var filterRes = discordGuildMembers.filter(
                     (member) => {
-                        var userName = member && member.user.username ? member.user.username : '';
-                        var nickName = member && member.nickname ? member.nickname : '';
-                        var compare = userName.toString().toLowerCase().includes(complete.familyName.toLowerCase()) ||
-                            nickName.toString().toLowerCase().includes(complete.familyName.toLowerCase());
+                        var famName = complete.familyName.trim().toLowerCase();
+                        var userName = member && member.user.username ? member.user.username.toString().trim().toLowerCase() : '';
+                        var nickName = member && member.nickname ? member.nickname.toString().trim().toLowerCase() : '';
+                        var compare = userName.includes(famName) ||
+                            nickName.includes(famName);
                         return compare;
                     }
                 )
@@ -113,14 +114,14 @@ var getGoogleSheet = (msg) => {
             var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
-                    return complete.username === member.user.username
+                    return complete.username === userName;
                 });
                 return ind === -1 ? true : false;
             });
 
-            console.log('unCompletedmembers : ', discordUncompletedMembers_raw.filter((member) => {
-                return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
-            }));
+            // console.log('unCompletedmembers : ', discordUncompletedMembers_raw.filter((member) => {
+            //     return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
+            // }));
 
             var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
                 return '<@' + user.user.id + '>';
