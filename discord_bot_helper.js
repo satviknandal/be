@@ -40,7 +40,7 @@ var readSettings = () => {
         // other options...
     });
 
-    prom.then((obj) => { console.log(prom) });
+    prom.then((obj) => { console.log(obj) });
     return prom;
 
 }
