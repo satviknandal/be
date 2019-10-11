@@ -29,6 +29,25 @@ var writeFile = (obj, path) => {
     fs.writeFileSync(path, data);
 }
 
+var readSettings = () => {
+    var credentials = atob(creds.json);
+    console.log(credentials);
+    var spreadSheet = readFile('sheet.json');
+
+    gsjson({
+        spreadsheetId: spreadSheetID.sheet,
+        credentials: credentials,
+        worksheet: spreadSheet.workSheet
+        // other options...
+    })
+        .then((ws) => {
+            console.log(ws);
+        })
+        .catch((err) => {
+
+        });
+}
+
 var sendForms = () => {
     client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + readFile('message.json').message);
 }
@@ -206,6 +225,11 @@ module.exports = (res) => {
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
             getGoogleSheet(msg);
         }
+
+        if (msg.content === '!read_settings' && checkAdminRights(msg)) {
+            readSettings();
+        }
+        
     });
 
     client.login(atob(auth.token));
