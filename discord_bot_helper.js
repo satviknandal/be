@@ -48,7 +48,7 @@ var readSettings = () => {
 var sendForms = () => {
     readSettings().then((ws) => {
         var workS = ws[0];
-        client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + workS.g_forms_link + '\nUpdated on :' + workS.updated);
+        client.channels.get(channelID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
     })
         .catch((err) => {
 
@@ -166,9 +166,8 @@ var getGoogleSheet = (msg) => {
             readSettings().then((ws) => {
                 var workS = ws[0];
 
-                var spamMessage = 'Please fill up the forms! ' +
-                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me +
-                    '\nUpdated on :' + workS.updated;
+                var spamMessage = 'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
+                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
                 console.log('Message : ' + spamMessage);
 
                 if (msg) {
