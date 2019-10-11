@@ -29,9 +29,8 @@ var writeFile = (obj, path) => {
     fs.writeFileSync(path, data);
 }
 
-var readSettings = () => {
+var readSettings = (msg) => {
     var credentials = atob(creds.json);
-    console.log(credentials);
     var spreadSheet = readFile('sheet.json');
 
     gsjson({
@@ -41,7 +40,7 @@ var readSettings = () => {
         // other options...
     })
         .then((ws) => {
-            console.log(ws);
+            console.log('Worksheet : ', ws);
             msg.delete(1000);
         })
         .catch((err) => {
