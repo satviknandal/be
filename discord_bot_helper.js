@@ -90,6 +90,7 @@ var getGoogleSheet = (msg) => {
     })
         .then((completed) => {
             var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
+            console.log('List of completed from Sheet', completed);
             var discordCompletedMembers = completed.map((complete) => {
                 var filterRes = discordGuildMembers.filter(
                     (member) => {
@@ -117,7 +118,9 @@ var getGoogleSheet = (msg) => {
                 return ind === -1 ? true : false;
             });
 
-            console.log('unCompletedmembers : ', discordUncompletedMembers_raw);
+            console.log('unCompletedmembers : ', discordUncompletedMembers_raw.filter((member) => {
+                return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
+            }));
 
             var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
                 return '<@' + user.user.id + '>';
