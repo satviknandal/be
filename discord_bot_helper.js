@@ -5,30 +5,32 @@ var schedule = require('node-schedule');
 const fs = require('fs');
 var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
+var sheet = require('./sheet.json');
 
 const guildID = "442656148739457034";
 const channelID = "588743997665705985";
-const guildMemberRoleNumber = "442657945017253892";
-const guildMember = "<@&442657945017253892>";
+// const guildMemberRoleNumber = "442657945017253892";
+// const guildMember = "<@&442657945017253892>";
+
+const siegeMemberRoleNumber = "632016115480133644";
+const siegeMember = "<@&632016115480133644>";
+
 const me = "<@548897775576678442>";
 const client = new Discord.Client();
 
-var readFile = () => {
-    var rawdata = fs.readFileSync('message.json');
-    var message = JSON.parse(rawdata);
-    return message.message;
+var readFile = (path) => {
+    var rawdata = fs.readFileSync(path);
+    var obj = JSON.parse(rawdata);
+    return obj;
 }
 
-var writeFile = (link) => {
-    let message = {
-        message: link
-    };
-    let data = JSON.stringify(message);
-    fs.writeFileSync('message.json', data);
+var writeFile = (obj, path) => {
+    let data = JSON.stringify(obj);
+    fs.writeFileSync(path, data);
 }
 
 var sendForms = () => {
-    client.channels.get(channelID).send(guildMember + ' Here are the forms for this week! : ' + readFile());
+    client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + readFile('message.json').message);
 }
 
 var schedulerProcess = (dayOfWeek, hour, minute) => {
@@ -74,14 +76,20 @@ var filterAttendance = () => {
     // }
 }
 
-getGoogleSheet = (msg) => {
+var getGoogleSheet = (msg) => {
+
+    var credentials = atob(creds.json);
+    console.log(credentials);
+
+    var spreadSheetID = readFile('sheet.json').sheet;
+
     gsjson({
-        spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
-        credentials: './google-generated-creds.json'
+        spreadsheetId: spreadSheetID,
+        credentials: credentials
         // other options...
     })
         .then((completed) => {
-            var discordGuildMembers = client.guilds.get(guildID).roles.find("id", guildMemberRoleNumber).members;
+            var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
             var discordCompletedMembers = completed.map((complete) => {
                 var filterRes = discordGuildMembers.filter(
                     (member) => {
@@ -114,7 +122,7 @@ getGoogleSheet = (msg) => {
             console.log('unCompletedmembers : ', discordUncompletedMembers);
 
             var spammer = discordUncompletedMembers.join(',');
-            var spamMessage = guildMember + ' Please fill up the forms! ' +
+            var spamMessage = siegeMember + ' Please fill up the forms! ' +
                 readFile() + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
             console.log('Message : ' + spamMessage);
             client.channels.get(channelID).send(spamMessage);
@@ -142,12 +150,24 @@ module.exports = (res) => {
     client.on('message', msg => {
 
         if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
-
             var msgArr = (msg.content.split(' '));
             var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
             msg.delete(1000);
-            writeFile(link);
+            writeFile({
+                message: link
+            }, 'message.json');
             sendForms();
+            msg.channel.send('Forms for the week updated.');
+        }
+
+        if (msg.content.startsWith('!update_sheet') && checkAdminRights(msg)) {
+            var msgArr = (msg.content.split(' '));
+            var sheet = msgArr.length > 0 ? msgArr[1] : 'no sheet defined, please contact Kiki';
+            msg.delete(1000);
+            writeFile({
+                sheet: sheet
+            }, 'sheet.json');
+            msg.channel.send('Sheet for the week updated.');
         }
 
         if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
