@@ -33,12 +33,15 @@ var readSettings = () => {
     var credentials = atob(creds.json);
     var spreadSheet = readFile('sheet.json');
 
-    return gsjson({
+    let prom = gsjson({
         spreadsheetId: spreadSheet.sheet,
         credentials: credentials,
         worksheet: spreadSheet.workSheet
         // other options...
     });
+
+    prom.then((obj) => { console.log(prom) });
+    return prom;
 
 }
 
