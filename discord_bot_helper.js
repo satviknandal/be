@@ -53,7 +53,7 @@ var sendForms = () => {
 }
 
 
-var schedulerController = (control) => {
+var schedulerController = (rule, control) => {
     var sche = schedule.scheduleJob(rule, function () {
         if (control && control === 'initial') {
             sendForms();
@@ -70,7 +70,7 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
     rule.dayOfWeek = dayOfWeek;
     rule.hour = hour;
     rule.minute = minute;
-    schedulerController(control);
+    schedulerController(rule, control);
 }
 
 var scheduler = () => {
