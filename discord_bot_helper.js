@@ -172,7 +172,7 @@ var getGoogleSheet = (msg) => {
 
                 if (msg) {
                     msg.delete(1000);
-                    msg.channel.send('Announcements will be Updated');
+                    msg.channel.send('Announcements will be updated shortly :)');
                 }
                 client.channels.get(channelID).send(spamMessage);
             })
