@@ -167,12 +167,12 @@ var getGoogleSheet = (msg, control) => {
             readSettings().then((ws) => {
                 var workS = ws[0];
 
-                var spamMessage =  
-                control && control == 'warning' ?
-                'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
-                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
-                'Unfortunately the below list of siege members have failed to fill up RSVP for the week :(\n' + 
-                spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
+                var spamMessage =
+                    control && control == 'warning' ?
+                        'Unfortunately the below list of siege members have failed to fill up RSVP for the week :(\n' +
+                        spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
+                        'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
+                        workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
 
                 console.log('Message : ' + spamMessage);
 
