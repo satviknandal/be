@@ -109,21 +109,23 @@ var getGoogleSheet = (msg) => {
                 return filterRes[0];
             }).filter((complete) => complete !== undefined);
 
-            var discordUncompletedMembers = discordGuildMembers.filter((member) => {
+            var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
                     return complete.username === member.user.username
                 });
                 return ind === -1 ? true : false;
-            }).map((user) => {
+            });
+
+            console.log('unCompletedmembers : ', discordUncompletedMembers_raw);
+
+            var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
                 return '<@' + user.user.id + '>';
             });
 
-            console.log('unCompletedmembers : ', discordUncompletedMembers);
-
             var spammer = discordUncompletedMembers.join(',');
             var spamMessage = siegeMember + ' Please fill up the forms! ' +
-                readFile('message.json') + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
+                readFile('message.json').message + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
             console.log('Message : ' + spamMessage);
             client.channels.get(channelID).send(spamMessage);
             msg.channel.send('Announcements Updated');
