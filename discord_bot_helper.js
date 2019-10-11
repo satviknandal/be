@@ -33,18 +33,23 @@ var sendForms = () => {
     client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + readFile('message.json').message);
 }
 
-var schedulerProcess = (dayOfWeek, hour, minute) => {
+var schedulerProcess = (dayOfWeek, hour, minute, initial) => {
     var rule = new schedule.RecurrenceRule();
     rule.dayOfWeek = dayOfWeek;
     rule.hour = hour;
     rule.minute = minute;
     var sche = schedule.scheduleJob(rule, function () {
-        sendForms();
+        if (initial) {
+            sendForms();
+        }
+        else {
+            getGoogleSheet(null);
+        }
     });
 }
 
 var scheduler = () => {
-    schedulerProcess(3, 21, 1);
+    schedulerProcess(3, 21, 1, true);
     schedulerProcess(4, 21, 1);
     schedulerProcess(5, 21, 1);
     schedulerProcess(4, 8, 51);
@@ -128,15 +133,24 @@ var getGoogleSheet = (msg) => {
             });
 
             var spammer = discordUncompletedMembers.join(',');
-            var spamMessage = siegeMember + ' Please fill up the forms! ' +
+            var spamMessage = 'Please fill up the forms! ' +
                 readFile('message.json').message + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
             console.log('Message : ' + spamMessage);
+
+            if (msg) {
+                msg.delete(1000);
+                msg.channel.send('Announcements will be Updated');
+            }
             client.channels.get(channelID).send(spamMessage);
-            msg.channel.send('Announcements Updated');
         })
         .catch((err) => {
             console.log(err);
-            msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
+            if (msg) {
+                msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
+            }
+            else {
+                client.channels.get(channelID).send('Sorry not able to read sheet! ' + me + ' please help!');
+            }
         });
 }
 
