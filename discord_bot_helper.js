@@ -29,46 +29,52 @@ var writeFile = (obj, path) => {
     fs.writeFileSync(path, data);
 }
 
-var readSettings = (msg) => {
+var readSettings = () => {
     var credentials = atob(creds.json);
     var spreadSheet = readFile('sheet.json');
 
-    gsjson({
+    return gsjson({
         spreadsheetId: spreadSheet.sheet,
         credentials: credentials,
         worksheet: spreadSheet.workSheet
         // other options...
+    });
+
+}
+
+var sendForms = () => {
+    readSettings().then((ws) => {
+        var workS = ws[0];
+        client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + workS.g_forms_link + '\nUpdated on :' + workS.updated);
     })
-        .then((ws) => {
-            console.log('Worksheet : ', ws);
-            msg.delete(1000);
-        })
         .catch((err) => {
 
         });
 }
 
-var sendForms = () => {
-    client.channels.get(channelID).send(siegeMember + ' Here are the forms for this week! : ' + readFile('message.json').message);
-}
 
-var schedulerProcess = (dayOfWeek, hour, minute, initial) => {
-    var rule = new schedule.RecurrenceRule();
-    rule.dayOfWeek = dayOfWeek;
-    rule.hour = hour;
-    rule.minute = minute;
+var schedulerController = (control) => {
     var sche = schedule.scheduleJob(rule, function () {
-        if (initial) {
+        if (control && control === 'initial') {
             sendForms();
         }
         else {
             getGoogleSheet(null);
         }
     });
+
+}
+
+var schedulerProcess = (dayOfWeek, hour, minute, control) => {
+    var rule = new schedule.RecurrenceRule();
+    rule.dayOfWeek = dayOfWeek;
+    rule.hour = hour;
+    rule.minute = minute;
+    schedulerController(control);
 }
 
 var scheduler = () => {
-    schedulerProcess(3, 21, 1, true);
+    schedulerProcess(3, 21, 1, 'initial');
     schedulerProcess(4, 21, 1);
     schedulerProcess(5, 21, 1);
     schedulerProcess(4, 8, 51);
@@ -109,7 +115,8 @@ var getGoogleSheet = (msg) => {
 
     gsjson({
         spreadsheetId: spreadSheetID,
-        credentials: credentials
+        credentials: credentials,
+        worksheet: "0"
         // other options...
     })
         .then((completed) => {
@@ -152,15 +159,24 @@ var getGoogleSheet = (msg) => {
             });
 
             var spammer = discordUncompletedMembers.join(',');
-            var spamMessage = 'Please fill up the forms! ' +
-                readFile('message.json').message + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me;
-            console.log('Message : ' + spamMessage);
 
-            if (msg) {
-                msg.delete(1000);
-                msg.channel.send('Announcements will be Updated');
-            }
-            client.channels.get(channelID).send(spamMessage);
+            readSettings().then((ws) => {
+                var workS = ws[0];
+
+                var spamMessage = 'Please fill up the forms! ' +
+                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but see your name here inform ' + me +
+                    '\nUpdated on :' + workS.updated;
+                console.log('Message : ' + spamMessage);
+
+                if (msg) {
+                    msg.delete(1000);
+                    msg.channel.send('Announcements will be Updated');
+                }
+                client.channels.get(channelID).send(spamMessage);
+            })
+                .catch((err) => {
+
+                });
         })
         .catch((err) => {
             console.log(err);
@@ -188,26 +204,26 @@ module.exports = (res) => {
 
     client.on('message', msg => {
 
-        if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
-            var msgArr = (msg.content.split(' '));
-            var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
-            msg.delete(1000);
-            writeFile({
-                message: link
-            }, 'message.json');
-            sendForms();
-            msg.channel.send('Forms for the week updated.');
-        }
+        // if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
+        //     var msgArr = (msg.content.split(' '));
+        //     var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
+        //     msg.delete(1000);
+        //     writeFile({
+        //         message: link
+        //     }, 'message.json');
+        //     sendForms();
+        //     msg.channel.send('Forms for the week updated.');
+        // }
 
-        if (msg.content.startsWith('!update_sheet') && checkAdminRights(msg)) {
-            var msgArr = (msg.content.split(' '));
-            var sheet = msgArr.length > 0 ? msgArr[1] : 'no sheet defined, please contact Kiki';
-            msg.delete(1000);
-            writeFile({
-                sheet: sheet
-            }, 'sheet.json');
-            msg.channel.send('Sheet for the week updated.');
-        }
+        // if (msg.content.startsWith('!update_sheet') && checkAdminRights(msg)) {
+        //     var msgArr = (msg.content.split(' '));
+        //     var sheet = msgArr.length > 0 ? msgArr[1] : 'no sheet defined, please contact Kiki';
+        //     msg.delete(1000);
+        //     writeFile({
+        //         sheet: sheet
+        //     }, 'sheet.json');
+        //     msg.channel.send('Sheet for the week updated.');
+        // }
 
         if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
             var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
