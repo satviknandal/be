@@ -230,6 +230,10 @@ module.exports = (res) => {
             readSettings(msg);
         }
 
+        if (msg.content === '!best_castle?' && checkAdminRights(msg)) {
+            msg.channel.send('The castle of Sycria Underwater Ruins.');
+        }
+
     });
 
     client.login(atob(auth.token));
