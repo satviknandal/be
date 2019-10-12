@@ -118,15 +118,9 @@ var getGoogleSheet = (msg, control) => {
     var spreadSheetID = readFile('sheet.json').sheet;
 
     gsjson({
-<<<<<<< Updated upstream
         spreadsheetId: spreadSheetID,
         credentials: credentials,
         worksheet: "0"
-=======
-        //this spreadsheetId needs to be passed In!!
-        spreadsheetId: '1fk8mXZhLp-IyhImLxyf-76_PTPND4hJyRwObFvUOAjU',
-        credentials: './google-generated-creds.json'
->>>>>>> Stashed changes
         // other options...
     })
         .then((completed) => {
