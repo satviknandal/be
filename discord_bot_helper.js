@@ -279,4 +279,5 @@ module.exports = (res) => {
     });
 
     client.login(atob(auth.token));
+    
 }
