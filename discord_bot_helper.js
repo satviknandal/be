@@ -169,7 +169,7 @@ var getGoogleSheet = (msg, control) => {
 
                 var spamMessage =
                     control && control == 'warning' ?
-                        'Unfortunately the below list of siege members have failed to fill up RSVP for the week :(\n' +
+                        'Unfortunately the below list of siege members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
                         spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
                         'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
                         workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
@@ -234,10 +234,10 @@ module.exports = (res) => {
         // }
 
         if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
-            var guide = "Tell current time : \n!tell_time"+
-            "\n2)Send Announcements : \n!send_announcements"+
-            "\n3)Send Reminder : \n!check_members" +
-            "\n4)Warn Members : \n!warn_members";
+            var guide = "Tell current time : \n!tell_time" +
+                "\n2)Send Announcements : \n!send_announcements" +
+                "\n3)Send Reminder : \n!check_members" +
+                "\n4)Warn Members : \n!warn_members";
             msg.delete(1000);
             msg.channel.send(guide);
 
@@ -250,6 +250,7 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!send_announcements' && checkAdminRights(msg)) {
+            msg.delete(1000);
             sendForms();
         }
 
