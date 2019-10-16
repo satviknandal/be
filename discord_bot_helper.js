@@ -234,7 +234,10 @@ module.exports = (res) => {
         // }
 
         if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
-            var guide = "\n1) making update to RSVP Sheet : \n!update_forms https://www.google.com \n2) to show me the current time : \n!tell_time";
+            var guide = "Tell current time : \n!tell_time"+
+            "\n2)Send Announcements : \n!send_announcements"+
+            "\n3)Send Reminder : \n!check_members" +
+            "\n4)Warn Members : \n!warn_members";
             msg.delete(1000);
             msg.channel.send(guide);
 
@@ -244,6 +247,10 @@ module.exports = (res) => {
             var datetime = (new Date()).toLocaleString();
             msg.delete(1000);
             msg.channel.send(datetime);
+        }
+
+        if (msg.content === '!send_announcements' && checkAdminRights(msg)) {
+            sendForms();
         }
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
