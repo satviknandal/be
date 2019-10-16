@@ -233,6 +233,7 @@ module.exports = (res) => {
         //     msg.channel.send('Sheet for the week updated.');
         // }
 
+
         if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
             var guide = "Tell current time : \n!tell_time" +
                 "\n2)Send Announcements : \n!send_announcements" +
@@ -268,6 +269,11 @@ module.exports = (res) => {
 
         if (msg.content === '!best_castle?' && checkAdminRights(msg)) {
             msg.channel.send('The castle of Sycria Underwater Ruins.');
+        }
+
+        if (msg.content === '!complaints') {
+            msg.delete(1000);
+            msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjB1Pev7aDlAhVUTsAKHSUXAUUQyCkwAHoECAgQBQ&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DynMk2EwRi4Q&usg=AOvVaw0n4tXIrW566D9llOh5fcdA');
         }
 
     });
