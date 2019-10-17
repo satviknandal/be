@@ -60,6 +60,7 @@ var mainFunct = (res) => {
     this.configuration_all_rows = () => configuration_a_r();
 
     this.configuration_first_row = () => configuration_f_r();
+    return this;
 }
 
 module.exports = mainFunct;
