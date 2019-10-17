@@ -1,7 +1,9 @@
 var db = require('./db_helper');
 
-console.log(db);
 
-db().configuration_all_rows.then((result) => {
+var db_s = new db();
+console.log(db_s);
+
+db_s.configuration_all_rows.then((result) => {
     console.log('db_tester : ', result)
 })
