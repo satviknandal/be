@@ -63,4 +63,4 @@ var mainFunct = (res) => {
     let configuration_first_row = configuration_f_r();
 }
 
-module.exports = mainFunct();
+module.exports = mainFunct;
