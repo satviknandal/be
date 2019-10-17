@@ -57,10 +57,9 @@ let close_db = () => {
 }
 
 var mainFunct = (res) => {
+    this.configuration_all_rows = () => configuration_a_r();
 
-    let configuration_all_rows = () => configuration_a_r();
-
-    let configuration_first_row = () => configuration_f_r();
+    this.configuration_first_row = () => configuration_f_r();
 }
 
 module.exports = mainFunct;
