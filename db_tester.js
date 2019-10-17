@@ -1,7 +1,7 @@
 const db = require('./db_helper');
-var discord = require('./discord_bot_helper');
-console.log(discord);
-console.log(db);
+const discord = require('./discord_bot_helper');
+console.log('discord', discord);
+console.log('db', db);
 
 // var db_s = db();
 // console.log(db_s);
