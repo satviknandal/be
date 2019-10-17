@@ -6,6 +6,6 @@ console.log('db', db);
 var db_s = db();
 console.log(db_s);
 
-// db_s.configuration_all_rows.then((result) => {
-//     console.log('db_tester : ', result)
-// })
+db_s.configuration_all_rows().then((result) => {
+    console.log('db_tester : ', result)
+})
