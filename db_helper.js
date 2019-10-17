@@ -28,10 +28,10 @@ db.all(sql, [], (err, rows) => {
 });
 
 
-// close the database connection
-db.close((err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('Close the database connection.');
-});
+// // close the database connection
+// db.close((err) => {
+//     if (err) {
+//         return console.error(err.message);
+//     }
+//     console.log('Close the database connection.');
+// });
