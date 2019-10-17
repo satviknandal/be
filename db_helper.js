@@ -12,7 +12,7 @@ db.get(sql, [], (err, row) => {
     }
     console.log(row);
     return row
-        ? console.log(row.id, row.name)
+        ? console.log(row.ID, row.Sheet)
         : console.log(`no config found!`);
 
 });
@@ -23,7 +23,7 @@ db.all(sql, [], (err, rows) => {
     }
     console.log(rows);
     rows.forEach((row) => {
-        console.log(row.name);
+        console.log(row.ID);
     });
 });
 
