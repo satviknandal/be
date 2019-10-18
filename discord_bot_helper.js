@@ -61,6 +61,9 @@ var schedulerController = (rule, control) => {
         if (control && control === 'initial') {
             sendForms();
         }
+        if (control && control === 'vacation') {
+            get_non_attendance(null, control);
+        }
         else {
             get_attendance(null, control);
         }
@@ -79,6 +82,8 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 var scheduler = () => {
     schedulerProcess(3, 21, 1, 'initial');
     schedulerProcess(4, 21, 1);
+    schedulerProcess(4, 23, 1, 'vacation');
+    schedulerProcess(5, 9, 1, 'vacation');
     schedulerProcess(5, 21, 1);
     schedulerProcess(4, 8, 51);
     schedulerProcess(5, 8, 51);
@@ -114,8 +119,8 @@ var getDiscordGuildies = (discordGuildMembers, completed) => {
             .map((member) => {
                 return {
                     'username': member.user.username,
-                    'user' : {
-                        'id' : member.user.id
+                    'user': {
+                        'id': member.user.id
                     }
                     // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
                 }
