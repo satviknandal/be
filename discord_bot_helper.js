@@ -192,7 +192,7 @@ var get_non_attendance = (msg, control) => {
             var workS = ws[0];
 
             var spamMessage = 'Thank you for filling RSVP' + workS.updated + ' for this week!\n' +
-                'Please be reminded to set your vacation status to [Yes] before siege!' + '\n' + spammer + 
+                'Please be reminded to set your vacation status to [Yes] before siege!' + '\n' + spammer +
                 '\nAny issues please inform ' + me;
 
             console.log('Message : ' + spamMessage);
@@ -324,6 +324,10 @@ module.exports = (res) => {
 
         if (msg.content === '!warn_members' && checkAdminRights(msg)) {
             get_attendance(msg, 'warning');
+        }
+
+        if (msg.content === '!send_vacation' && checkAdminRights(msg)) {
+            get_non_attendance(msg);
         }
 
         if (msg.content === '!read_settings' && checkAdminRights(msg)) {
