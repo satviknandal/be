@@ -129,7 +129,6 @@ var getGoogleSheet = () => {
     return new Promise((resolve, reject) => {
 
         var credentials = atob(creds.json);
-        console.log(credentials);
 
         var spreadSheetID = readFile('sheet.json').sheet;
 
@@ -144,6 +143,7 @@ var getGoogleSheet = () => {
             })
             .catch((err) => {
                 console.log(err);
+                resolve(err);
                 if (msg) {
                     msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
                 }
@@ -176,11 +176,14 @@ var get_non_attendance = (msg, control) => {
     getGoogleSheet().then((completed) => {
         var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
 
-        var discordNonAttendees = getDiscordGuildies(discordGuildMembers, completed.filter((complete) => {
+        var non_attendees = completed.filter((complete) => {
             var property = Object.keys(complete).filter((key) => key.toLowerCase().startsWith('areyouabletojoinsiegewar'));
-            console.log(property, complete[property]);
             return complete[property] == 'No';
-        }));
+        })
+
+        var discordNonAttendees = getDiscordGuildies(discordGuildMembers, non_attendees);
+
+        console.log('Non Attendees : ', discordNonAttendees);
 
         var discordNonAttendeeMembers = discordNonAttendees.map((user) => {
             return '<@' + user.user.id + '>';
