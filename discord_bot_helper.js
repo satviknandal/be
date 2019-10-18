@@ -312,7 +312,8 @@ module.exports = (res) => {
             var guide = "Tell current time : \n!tell_time" +
                 "\n2)Send Announcements : \n!send_announcements" +
                 "\n3)Send Reminder : \n!check_members" +
-                "\n4)Warn Members : \n!warn_members";
+                "\n4)Warn Members : \n!warn_members" + 
+                "\n5)Remind Vacationers : \n!send_vacation";
             msg.delete(1000);
             msg.channel.send(guide);
 
