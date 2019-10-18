@@ -62,7 +62,7 @@ var schedulerController = (rule, control) => {
             sendForms();
         }
         else {
-            getGoogleSheet(null, control);
+            get_attendance(null, control);
         }
     });
 
@@ -96,6 +96,65 @@ var checkAdminRights = (msg) => {
     return right;
 }
 
+
+var getDiscordGuildies = (discordGuildMembers, completed) => {
+
+    console.log('List of completed from Sheet', completed);
+    var discordCompletedMembers = completed.map((complete) => {
+        var filterRes = discordGuildMembers.filter(
+            (member) => {
+                var famName = complete.familyName.trim().toLowerCase();
+                var userName = member && member.user.username ? member.user.username.toString().trim().toLowerCase() : '';
+                var nickName = member && member.nickname ? member.nickname.toString().trim().toLowerCase() : '';
+                var compare = userName.includes(famName) ||
+                    nickName.includes(famName);
+                return compare;
+            }
+        )
+            .map((member) => {
+                return {
+                    'username': member.user.username
+                    // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
+                }
+            });
+        return filterRes[0];
+    }).filter((complete) => complete !== undefined);
+
+
+    return discordCompletedMembers;
+}
+
+
+var getGoogleSheet = () => {
+    return new Promise((resolve, reject) => {
+
+        var credentials = atob(creds.json);
+        console.log(credentials);
+
+        var spreadSheetID = readFile('sheet.json').sheet;
+
+        gsjson({
+            spreadsheetId: spreadSheetID,
+            credentials: credentials,
+            worksheet: "0"
+            // other options...
+        })
+            .then((completed) => {
+                resolve(completed);
+            })
+            .catch((err) => {
+                console.log(err);
+                if (msg) {
+                    msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
+                }
+                else {
+                    client.channels.get(channelID).send('Sorry not able to read sheet! ' + me + ' please help!');
+                }
+            });
+
+    })
+}
+
 var filterAttendance = () => {
     // var propertyArr = Object.keys(data[0]).filter((prop) => prop.startsWith("areYouAbleToJoinSiegeWar"));
 
@@ -110,91 +169,95 @@ var filterAttendance = () => {
     // }
 }
 
-var getGoogleSheet = (msg, control) => {
 
-    var credentials = atob(creds.json);
-    console.log(credentials);
 
-    var spreadSheetID = readFile('sheet.json').sheet;
+var get_non_attendance = (msg, control) => {
 
-    gsjson({
-        spreadsheetId: spreadSheetID,
-        credentials: credentials,
-        worksheet: "0"
-        // other options...
-    })
-        .then((completed) => {
-            var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
-            console.log('List of completed from Sheet', completed);
-            var discordCompletedMembers = completed.map((complete) => {
-                var filterRes = discordGuildMembers.filter(
-                    (member) => {
-                        var famName = complete.familyName.trim().toLowerCase();
-                        var userName = member && member.user.username ? member.user.username.toString().trim().toLowerCase() : '';
-                        var nickName = member && member.nickname ? member.nickname.toString().trim().toLowerCase() : '';
-                        var compare = userName.includes(famName) ||
-                            nickName.includes(famName);
-                        return compare;
-                    }
-                )
-                    .map((member) => {
-                        return {
-                            'username': member.user.username
-                            // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
-                        }
-                    });
-                return filterRes[0];
-            }).filter((complete) => complete !== undefined);
+    getGoogleSheet().then((completed) => {
+        var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
 
-            var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
-                var ind = discordCompletedMembers.findIndex(complete => {
-                    var userName = member && member.user.username ? member.user.username : '';
-                    return complete.username === userName;
-                });
-                return ind === -1 ? true : false;
-            });
+        var discordNonAttendees = getDiscordGuildies(discordGuildMembers, completed.filter((complete) => {
+            var property = Object.keys(complete).filter((key) => key.toLowerCase().startsWith('areyouabletojoinsiegewar'));
+            console.log(property, complete[property]);
+            return complete[property] == 'No';
+        }));
 
-            // console.log('unCompletedmembers : ', discordUncompletedMembers_raw.filter((member) => {
-            //     return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
-            // }));
-
-            var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
-                return '<@' + user.user.id + '>';
-            });
-
-            var spammer = discordUncompletedMembers.join(',');
-
-            readSettings().then((ws) => {
-                var workS = ws[0];
-
-                var spamMessage =
-                    control && control == 'warning' ?
-                        'Unfortunately the below list of siege members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
-                        spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
-                        'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
-                        workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
-
-                console.log('Message : ' + spamMessage);
-
-                if (msg) {
-                    msg.delete(1000);
-                    msg.channel.send(control && control == 'warning' ? 'Warnings to be issued :\'(' : 'Announcements will be updated shortly :)');
-                }
-                client.channels.get(channelID).send(spamMessage);
-            })
-                .catch((err) => {
-
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-            if (msg) {
-                msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
-            }
-            else {
-                client.channels.get(channelID).send('Sorry not able to read sheet! ' + me + ' please help!');
-            }
+        var discordNonAttendeeMembers = discordNonAttendees.map((user) => {
+            return '<@' + user.user.id + '>';
         });
+
+        var spammer = discordNonAttendeeMembers.join('\n');
+
+        readSettings().then((ws) => {
+            var workS = ws[0];
+
+            var spamMessage = 'Thank you for filling RSVP' + workS.updated + ' for this week!\n' +
+                'Please be reminded to set your vacation status to [Yes] before siege!' + '\n' + spammer + 
+                '\nAny issues please inform ' + me;
+
+            console.log('Message : ' + spamMessage);
+
+            if (msg) {
+                msg.delete(1000);
+                msg.channel.send('Vacation reminder will be sent shortly :)');
+            }
+            client.channels.get(channelID).send(spamMessage);
+        })
+            .catch((err) => {
+
+            });
+    })
+
+}
+
+var get_attendance = (msg, control) => {
+
+    getGoogleSheet().then((completed) => {
+        var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
+
+        var discordCompletedMembers = getDiscordGuildies(discordGuildMembers, completed);
+
+        var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
+            var ind = discordCompletedMembers.findIndex(complete => {
+                var userName = member && member.user.username ? member.user.username : '';
+                return complete.username === userName;
+            });
+            return ind === -1 ? true : false;
+        });
+
+        // console.log('unCompletedmembers : ', discordUncompletedMembers_raw.filter((member) => {
+        //     return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
+        // }));
+
+        var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
+            return '<@' + user.user.id + '>';
+        });
+
+        var spammer = discordUncompletedMembers.join('\n');
+
+        readSettings().then((ws) => {
+            var workS = ws[0];
+
+            var spamMessage =
+                control && control == 'warning' ?
+                    'Unfortunately the below list of siege members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
+                    spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
+                    'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
+                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
+
+            console.log('Message : ' + spamMessage);
+
+            if (msg) {
+                msg.delete(1000);
+                msg.channel.send(control && control == 'warning' ? 'Warnings to be issued :\'(' : 'Announcements will be updated shortly :)');
+            }
+            client.channels.get(channelID).send(spamMessage);
+        })
+            .catch((err) => {
+
+            });
+    })
+
 }
 
 
@@ -256,11 +319,11 @@ module.exports = (res) => {
         }
 
         if (msg.content === '!check_members' && checkAdminRights(msg)) {
-            getGoogleSheet(msg);
+            get_attendance(msg);
         }
 
         if (msg.content === '!warn_members' && checkAdminRights(msg)) {
-            getGoogleSheet(msg, 'warning');
+            get_attendance(msg, 'warning');
         }
 
         if (msg.content === '!read_settings' && checkAdminRights(msg)) {
@@ -279,5 +342,5 @@ module.exports = (res) => {
     });
 
     client.login(atob(auth.token));
-    
+
 }
