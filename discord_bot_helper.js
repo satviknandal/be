@@ -251,10 +251,10 @@ var get_attendance = (msg, control) => {
 
             var spamMessage =
                 control && control == 'warning' ?
-                    'Unfortunately the below list of siege members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
+                    'Unfortunately the below list of members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
                     spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
-                    'Please fill up the forms prepared on ' + workS.updated + ' for this week!\n' +
-                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the form but still see your name here inform ' + me;
+                    'Please fill up the document/s prepared on ' + workS.updated + ' for this week!\n' +
+                    workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the document but still see your name here inform ' + me;
 
             console.log('Message : ' + spamMessage);
 
