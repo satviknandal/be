@@ -113,7 +113,10 @@ var getDiscordGuildies = (discordGuildMembers, completed) => {
         )
             .map((member) => {
                 return {
-                    'username': member.user.username
+                    'username': member.user.username,
+                    'user' : {
+                        'id' : member.user.id
+                    }
                     // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
                 }
             });
