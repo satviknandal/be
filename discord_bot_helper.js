@@ -197,7 +197,7 @@ var get_non_attendance = (msg, control) => {
         readSettings().then((ws) => {
             var workS = ws[0];
 
-            var spamMessage = 'Thank you for filling RSVP' + workS.updated + ' for this week!\n' +
+            var spamMessage = 'Thank you for filling RSVP ' + workS.updated + ' for this week!\n' +
                 'Please be reminded to set your vacation status to [Yes] before siege!' + '\n' + spammer +
                 '\nAny issues please inform ' + me;
 
