@@ -11,9 +11,9 @@ db_helper.guild_all_rows().then((guildRows) => {
             eventRows.forEach((eRow) => {
                 let settings = { 
                     ...eRow,
-                    guildID =  gRow.ID,
-                    guild_Discord_ID = gRow.Discord_ID,
-                    me = gRow.Developer_ID,
+                    guildID :  gRow.ID,
+                    guild_Discord_ID : gRow.Discord_ID,
+                    me : gRow.Developer_ID,
                 }
                 
                 discord(settings);
