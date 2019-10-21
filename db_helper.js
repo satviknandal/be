@@ -19,10 +19,10 @@ let first_Row = (sql) => {
     });
 }
 
-let all_rows = (sql) => {
+let all_rows = (sql, param) => {
     return new Promise(function (resolve, reject) {
         // first row only
-        db.all(sql, [], (err, rows) => {
+        db.all(sql, param ? param : [], (err, rows) => {
             if (err) {
                 throw err;
             }
@@ -33,6 +33,22 @@ let all_rows = (sql) => {
             });
         });
     });
+}
+
+var guild_a_r = () => {
+    return all_rows(`SELECT * FROM Guild`);
+}
+
+var event_a_r = (param) => {
+    return all_rows(`SELECT * FROM Event WHERE Guild_ID = ?`, [param]);
+}
+
+var schedule_a_r = () => {
+    return all_rows(`SELECT * FROM Schedule`);
+}
+
+var permissions_a_r = () => {
+    return all_rows(`SELECT * FROM Permissions`);
 }
 
 var configuration_f_r = () => {
@@ -57,9 +73,14 @@ let close_db = () => {
 }
 
 var mainFunct = (res) => {
-    this.configuration_all_rows = () => configuration_a_r();
 
+    this.guild_all_rows = () => guild_a_r();
+    this.event_all_rows = (param) => event_a_r(param);
+    this.schedule_all_rows = () => schedule_a_r();
+    this.permissions_all_rows = () => permissions_a_r();
+    this.configuration_all_rows = () => configuration_a_r();
     this.configuration_first_row = () => configuration_f_r();
+
     return this;
 }
 
