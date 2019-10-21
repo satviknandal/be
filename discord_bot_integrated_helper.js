@@ -281,7 +281,7 @@ module.exports = (settings) => {
     init(settings).then((result) => {
 
         client.on('ready', (res) => {
-            console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.setting.guild_Discord_ID} & E_ID : ${settings.ID}`);
+            console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.guild_Discord_ID} & E_ID : ${settings.ID}`);
             var sche = scheduler();
         });
 
