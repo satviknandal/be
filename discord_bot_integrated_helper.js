@@ -5,15 +5,15 @@ var schedule = require('node-schedule');
 const fs = require('fs');
 var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
+const db = require('./db_helper');
+
+var db_helper = db();
+
+let setting;
 
 let sheet;
 let workSheet;
-let guildID;
-let channelID;
-// const guildMemberRoleNumber = "442657945017253892";
-// const guildMember = "<@&442657945017253892>";
 
-let siegeMemberRoleNumber;
 let siegeMember;
 
 let me;
@@ -27,15 +27,17 @@ var readFile = (path) => {
 
 var init = (settings) => {
     return new Promise((resolve, reject) => {
-        guildID = settings.guild_ID;
-        channelID = settings.channel_ID;
-        siegeMemberRoleNumber = settings.siegeMember_ID;
-        siegeMember = "<@" + settings.siegeMember_ID + ">";
-        sheet = settings.sheet;
-        workSheet = settings.workSheet;
-        me = developer;
-        //setTimeout if needed
-        resolve(true);
+
+        setting = settings;
+        siegeMember = "<@" + settings.Event_Role_ID + ">";
+        me = "<@" + settings.Developer_ID + ">";
+
+        db_helper.configuration_first_row(settings.ID).then((cRow) => {
+            sheet = cRow.sheet;
+            workSheet = cRow.workSheet;
+            //setTimeout if needed
+            resolve(true);
+        })
     })
 }
 
@@ -62,7 +64,7 @@ var readSettings = (work_Sheet) => {
 var sendForms = () => {
     readSettings(worksheet).then((ws) => {
         var workS = ws[0];
-        client.channels.get(channelID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
+        client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
     })
         .catch((err) => {
         });
@@ -159,7 +161,7 @@ var getGoogleSheet = () => {
                 msg.channel.send('Sorry not able to read sheet! ' + me + ' please help!');
             }
             else {
-                client.channels.get(channelID).send('Sorry not able to read sheet! ' + me + ' please help!');
+                client.channels.get(setting.Announcement_Channel_ID).send('Sorry not able to read sheet! ' + me + ' please help!');
             }
         });
     })
@@ -184,7 +186,7 @@ var filterAttendance = () => {
 var get_non_attendance = (msg, control) => {
 
     getGoogleSheet().then((completed) => {
-        var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
+        var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
         var non_attendees = completed.filter((complete) => {
             var property = Object.keys(complete).filter((key) => key.toLowerCase().startsWith('areyouabletojoinsiegewar'));
@@ -214,7 +216,7 @@ var get_non_attendance = (msg, control) => {
                 msg.delete(1000);
                 msg.channel.send('Vacation reminder will be sent shortly :)');
             }
-            client.channels.get(channelID).send(spamMessage);
+            client.channels.get(setting.Announcement_Channel_ID).send(spamMessage);
         })
             .catch((err) => {
 
@@ -226,7 +228,7 @@ var get_non_attendance = (msg, control) => {
 var get_attendance = (msg, control) => {
 
     getGoogleSheet().then((completed) => {
-        var discordGuildMembers = client.guilds.get(guildID).roles.find("id", siegeMemberRoleNumber).members;
+        var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
         var discordCompletedMembers = getDiscordGuildies(discordGuildMembers, completed);
 
@@ -264,7 +266,7 @@ var get_attendance = (msg, control) => {
                 msg.delete(1000);
                 msg.channel.send(control && control == 'warning' ? 'Warnings to be issued :\'(' : 'Announcements will be updated shortly :)');
             }
-            client.channels.get(channelID).send(spamMessage);
+            client.channels.get(setting.Announcement_Channel_ID).send(spamMessage);
         })
             .catch((err) => {
 
@@ -274,18 +276,13 @@ var get_attendance = (msg, control) => {
 }
 
 
-module.exports = (res, settings) => {
+module.exports = (settings) => {
 
     init(settings).then((result) => {
 
-        client.on('ready', () => {
-            if (res) {
-                res.write('\n' + `Logged in as ${client.user.tag}!`);
-            } else {
-                console.log(`Logged in as ${client.user.tag}!`);
-            }
+        client.on('ready', (res) => {
+            console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.setting.guild_Discord_ID} & E_ID : ${settings.ID}`);
             var sche = scheduler();
-
         });
 
         client.on('message', msg => {

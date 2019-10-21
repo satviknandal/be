@@ -3,10 +3,10 @@ const sqlite3 = require('sqlite3').verbose();
 // open the database
 let db = new sqlite3.Database('../discord_db/discord_bot_siege_db');
 
-let first_Row = (sql) => {
+let first_Row = (sql, param) => {
     return new Promise(function (resolve, reject) {
         // first row only
-        db.get(sql, [], (err, row) => {
+        db.get(sql, param ? param : [], (err, row) => {
             if (err) {
                 return console.error(err.message);
             }
@@ -43,21 +43,22 @@ var event_a_r = (param) => {
     return all_rows(`SELECT * FROM Event WHERE Guild_ID = ?`, [param]);
 }
 
-var schedule_a_r = () => {
-    return all_rows(`SELECT * FROM Schedule`);
+var schedule_a_r = (param) => {
+    return all_rows(`SELECT * FROM Schedule WHERE Event_ID = ?`, [param]);
 }
 
-var permissions_a_r = () => {
-    return all_rows(`SELECT * FROM Permissions`);
+var permissions_a_r = (param) => {
+    return all_rows(`SELECT * FROM Permissions WHERE Event_ID = ?`, [param]);
 }
 
-var configuration_f_r = () => {
-    return first_Row(`SELECT * FROM Configuration`);
+var configuration_a_r = (param) => {
+    return all_rows(`SELECT * FROM Configuration WHERE Event_ID = ?`, [param]);
 }
 
-var configuration_a_r = () => {
-    return all_rows(`SELECT * FROM Configuration`);
+var configuration_f_r = (param) => {
+    return first_Row(`SELECT * FROM Configuration WHERE Event_ID = ?`, [param]);
 }
+
 
 
 let close_db = () => {
@@ -76,10 +77,10 @@ var mainFunct = (res) => {
 
     this.guild_all_rows = () => guild_a_r();
     this.event_all_rows = (param) => event_a_r(param);
-    this.schedule_all_rows = () => schedule_a_r();
-    this.permissions_all_rows = () => permissions_a_r();
-    this.configuration_all_rows = () => configuration_a_r();
-    this.configuration_first_row = () => configuration_f_r();
+    this.schedule_all_rows = (param) => schedule_a_r(param);
+    this.permissions_all_rows = (param) => permissions_a_r(param);
+    this.configuration_all_rows = (param) => configuration_a_r(param);
+    this.configuration_first_row = (param) => configuration_f_r(param);
 
     return this;
 }
