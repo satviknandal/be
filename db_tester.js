@@ -13,7 +13,7 @@ db_helper.guild_all_rows().then((guildRows) => {
                     ...eRow,
                     guildID :  gRow.ID,
                     guild_Discord_ID : gRow.Discord_ID,
-                    me : gRow.Developer_ID,
+                    Developer_ID : gRow.Developer_ID,
                 }
                 
                 discord(settings);
