@@ -8,7 +8,7 @@ var db_helper = db();
 db_helper.guild_all_rows().then((guildRows) => {
     guildRows.forEach((gRow) => {
         db_helper.event_all_rows(gRow.ID).then((eventRows) => {
-            console.log(eventRows);
+            console.log('eventRows' , eventRows);
             eventRows.forEach((eRow) => {
 
 
