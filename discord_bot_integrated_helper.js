@@ -6,7 +6,6 @@ const fs = require('fs');
 var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
 
-
 let sheet;
 let workSheet;
 let guildID;

@@ -1,5 +1,5 @@
 const db = require('./db_helper');
-const discord = require('./discord_bot_helper');
+const discord = require('./discord_bot_integrated_helper');
 console.log('discord', discord);
 console.log('db', db);
 
