@@ -116,22 +116,22 @@ var scheduler = () => {
 }
 
 var checkAdminRights = (msg) => {
+    return new Promise((resolve, reject) => {
+        db_helper.permissions_all_rows(setting.ID).then((perRows) => {
 
-    return db_helper.permissions_all_rows(setting.ID).then((perRows) => {
+            var right = msg.member.roles.some(role =>
+                perRows.some((perRow) => role.name.includes(perRow.Role))
+            );
 
-        var right = msg.member.roles.some(role =>
-            perRows.some((perRow) => role.name.includes(perRow.Role))
-        );
+            if (!right) {
+                msg.delete(1000);
+                msg.reply("Sorry you dont have permission to use this :(");
+            }
 
-        if (!right) {
-            msg.delete(1000);
-            msg.reply("Sorry you dont have permission to use this :(");
-        }
-        return right;
+            resolve(right);
+        })
 
     })
-
-
 }
 
 
