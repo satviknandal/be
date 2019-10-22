@@ -10,7 +10,7 @@ let first_Row = (sql, param) => {
             if (err) {
                 return console.error(err.message);
             }
-            console.log(row);
+            console.log('ROW FR : ', row);
             resolve(row);
             return row
                 ? console.log(row.ID, row.Sheet)

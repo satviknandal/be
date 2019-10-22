@@ -33,6 +33,7 @@ var init = (settings) => {
         me = "<@" + settings.Developer_ID + ">";
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
+            console.log(cRow);
             sheet = cRow.sheet;
             workSheet = cRow.workSheet;
             //setTimeout if needed
