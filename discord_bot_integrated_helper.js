@@ -295,8 +295,8 @@ var get_attendance = (msg, control) => {
 
 
 let checkContext = (guild_Discord_ID, channelID) => {
-    console.log(guild_Discord_ID, setting.Discord_ID, channelID, setting.Announcement_Channel_ID);
-    return guild_Discord_ID == setting.Discord_ID && channelID == setting.Announcement_Channel_ID;
+    console.log(guild_Discord_ID, setting.guild_Discord_ID, channelID, setting.Announcement_Channel_ID);
+    return guild_Discord_ID == setting.guild_Discord_ID && channelID == setting.Announcement_Channel_ID;
 }
 
 
