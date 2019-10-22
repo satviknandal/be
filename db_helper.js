@@ -12,9 +12,9 @@ let first_Row = (sql, param) => {
                 return console.error(err.message);
             }
             resolve(row);
-            return row
-                ? console.log(row.ID, row.Sheet)
-                : console.log(`no config found!`);
+            // return row
+            //     ? console.log(row.ID, row.Sheet)
+            //     : console.log(`no config found!`);
         });
     });
 }
