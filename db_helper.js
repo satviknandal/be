@@ -63,7 +63,7 @@ var configuration_f_r = (param) => {
 
 
 var guild_event_f_r = (param) => {
-    return first_Row(`SELECT g.*, e.*, e.ID as 'EventID' FROM Guild g LEFT JOIN Event e on g.ID = e.Guild_ID WHERE g.Discord_ID = ? AND = e.Announcement_Channel_ID = ?`, [param.a, param.b]);
+    return first_Row(`SELECT g.*, e.*, e.ID as 'EventID' FROM Guild g LEFT JOIN Event e ON g.ID = e.Guild_ID`, [param.a, param.b]);
 }
 
 
