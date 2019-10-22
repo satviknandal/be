@@ -301,9 +301,9 @@ let specMessages = (msg) => {
                 Announcement_Channel_ID: geRow.Announcement_Channel_ID,
                 Event_Role_ID: geRow.Event_Role_ID,
                 Guild_ID: geRow.Guild_ID,
-                guildID: gRow.ID,
-                guild_Discord_ID: gRow.Discord_ID,
-                Developer_ID: gRow.Developer_ID
+                guildID: geRow.ID,
+                guild_Discord_ID: geRow.Discord_ID,
+                Developer_ID: geRow.Developer_ID
             }
 
             init(settings).then((res) => {
