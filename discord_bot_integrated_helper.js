@@ -327,7 +327,7 @@ module.exports = (settings) => {
             // }
 
 
-            if (msg.content === '!rsvp_help' && await checkAdminRights(msg)) {
+            if (msg.content === '!rsvp_help' && (await checkAdminRights(msg))) {
                 var guide = "Tell current time : \n!tell_time" +
                     "\n2)Send Announcements : \n!send_announcements" +
                     "\n3)Send Reminder : \n!check_members" +
