@@ -10,8 +10,6 @@ var db_helper = db();
 db_helper.guild_all_rows().then((guildRows) => {
     guildRows.forEach(async (gRow) => {
         let eventRows = await db_helper.event_all_rows(gRow.ID);
-
-        console.log('eventRows', eventRows);
         eventRows.forEach(async (eRow) => {
             let settings = {
                 ...eRow,
@@ -27,4 +25,5 @@ db_helper.guild_all_rows().then((guildRows) => {
     })
 
     client.login(atob(auth.token));
+    console.log('???');
 })
