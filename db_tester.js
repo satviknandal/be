@@ -1,4 +1,5 @@
 const db = require('./db_helper');
+var atob = require('atob');
 const discord = require('./discord_bot_integrated_helper');
 const Discord = require('discord.js');
 var auth = require('./auth.json');
