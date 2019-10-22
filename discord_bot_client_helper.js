@@ -337,7 +337,7 @@ var mainFunct = () => {
 
         if (msg.content === '!rsvp_help') {
 
-            specMessages().then((res) => {
+            specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
                     if (right) {
                         var guide = "Tell current time : \n!tell_time" +
