@@ -99,25 +99,39 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 }
 
 var scheduler = () => {
-    schedulerProcess(3, 21, 1, 'initial');
-    schedulerProcess(4, 21, 1);
-    schedulerProcess(4, 23, 1, 'vacation');
-    schedulerProcess(5, 9, 1, 'vacation');
-    schedulerProcess(5, 21, 1);
-    schedulerProcess(4, 8, 51);
-    schedulerProcess(5, 8, 51);
-    schedulerProcess(0, 21, 00, 'warning');
+    // schedulerProcess(3, 21, 1, 'initial');
+    // schedulerProcess(4, 21, 1);
+    // schedulerProcess(4, 23, 1, 'vacation');
+    // schedulerProcess(5, 9, 1, 'vacation');
+    // schedulerProcess(5, 21, 1);
+    // schedulerProcess(4, 8, 51);
+    // schedulerProcess(5, 8, 51);
+    // schedulerProcess(0, 21, 00, 'warning');
+
+    db_helper.schedule_all_rows(setting.ID).then((sRows) => {
+        sRows.forEach((sRow) => {
+            schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
+        })
+    })
 }
 
 var checkAdminRights = (msg) => {
-    var right = msg.member.roles.some(role => role.name.includes("Officer") || role.name.includes("Admin")
-        || role.name.includes("Queen") || role.name.includes("King") || role.name.includes("Moderator"));
 
-    if (!right) {
-        msg.delete(1000);
-        msg.reply("Sorry you dont have permission to use this :(");
-    }
-    return right;
+    return db_helper.permissions_all_rows(setting.ID).then((perRows) => {
+
+        var right = msg.member.roles.some(role =>
+            perRows.some((perRow) => role.name.includes(perRow.Role))
+        );
+
+        if (!right) {
+            msg.delete(1000);
+            msg.reply("Sorry you dont have permission to use this :(");
+        }
+        return right;
+
+    })
+
+
 }
 
 
@@ -282,7 +296,7 @@ var get_attendance = (msg, control) => {
 
 module.exports = (settings) => {
 
-    init(settings).then((result) => {
+    init(settings).then(async (result) => {
 
         client.on('ready', (res) => {
             console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.guildID} & E_ID : ${settings.ID}`);
@@ -313,7 +327,7 @@ module.exports = (settings) => {
             // }
 
 
-            if (msg.content === '!rsvp_help' && checkAdminRights(msg)) {
+            if (msg.content === '!rsvp_help' && await checkAdminRights(msg)) {
                 var guide = "Tell current time : \n!tell_time" +
                     "\n2)Send Announcements : \n!send_announcements" +
                     "\n3)Send Reminder : \n!check_members" +
@@ -324,38 +338,38 @@ module.exports = (settings) => {
 
             }
 
-            if (msg.content === '!tell_time' && checkAdminRights(msg)) {
+            if (msg.content === '!tell_time' && await checkAdminRights(msg)) {
                 var datetime = (new Date()).toLocaleString();
                 msg.delete(1000);
                 msg.channel.send(datetime);
             }
 
-            if (msg.content === '!send_announcements' && checkAdminRights(msg)) {
+            if (msg.content === '!send_announcements' && await checkAdminRights(msg)) {
                 msg.delete(1000);
                 sendForms();
             }
 
-            if (msg.content === '!check_members' && checkAdminRights(msg)) {
+            if (msg.content === '!check_members' && await checkAdminRights(msg)) {
                 get_attendance(msg);
             }
 
-            if (msg.content === '!warn_members' && checkAdminRights(msg)) {
+            if (msg.content === '!warn_members' && await checkAdminRights(msg)) {
                 get_attendance(msg, 'warning');
             }
 
-            if (msg.content === '!send_vacation' && checkAdminRights(msg)) {
+            if (msg.content === '!send_vacation' && await checkAdminRights(msg)) {
                 get_non_attendance(msg);
             }
 
-            if (msg.content === '!read_settings' && checkAdminRights(msg)) {
+            if (msg.content === '!read_settings' && await checkAdminRights(msg)) {
                 readSettings(msg);
             }
 
-            if (msg.content === '!best_castle?' && checkAdminRights(msg)) {
+            if (msg.content === '!best_castle?' && await checkAdminRights(msg)) {
                 msg.channel.send('The castle of Sycria Underwater Ruins.');
             }
 
-            if (msg.content === '!complaints') {
+            if (msg.content === '!complaints' && await checkAdminRights(msg)) {
                 msg.delete(1000);
                 msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
             }
