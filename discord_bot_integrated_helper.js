@@ -348,45 +348,72 @@ var mainFunct = async (settings) => {
             msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
         }
 
-        var right = await checkAdminRights(msg);
 
+        if (msg.content === '!rsvp_help') {
+            checkAdminRights(msg).then((rights) => {
 
-        if (msg.content === '!rsvp_help' && right) {
-            var guide = "Tell current time : \n!tell_time" +
-                "\n2)Send Announcements : \n!send_announcements" +
-                "\n3)Send Reminder : \n!check_members" +
-                "\n4)Warn Members : \n!warn_members" +
-                "\n5)Remind Vacationers : \n!send_vacation";
-            msg.delete(delay);
-            msg.channel.send(guide);
+                var guide = "Tell current time : \n!tell_time" +
+                    "\n2)Send Announcements : \n!send_announcements" +
+                    "\n3)Send Reminder : \n!check_members" +
+                    "\n4)Warn Members : \n!warn_members" +
+                    "\n5)Remind Vacationers : \n!send_vacation";
+                msg.delete(delay);
+                msg.channel.send(guide);
+
+            })
+
 
         }
 
-        if (msg.content === '!tell_time' && right) {
-            var datetime = (new Date()).toLocaleString();
-            msg.delete(delay);
-            msg.channel.send(datetime);
+        if (msg.content === '!tell_time') {
+            checkAdminRights(msg).then((rights) => {
+
+                var datetime = (new Date()).toLocaleString();
+                msg.delete(delay);
+                msg.channel.send(datetime);
+
+            })
         }
 
-        if (msg.content === '!send_announcements' && right) {
-            msg.delete(delay);
-            sendForms();
+        if (msg.content === '!send_announcements') {
+            checkAdminRights(msg).then((rights) => {
+
+                msg.delete(delay);
+                sendForms();
+
+            })
         }
 
-        if (msg.content === '!check_members' && right) {
-            get_attendance(msg);
+        if (msg.content === '!check_members') {
+            checkAdminRights(msg).then((rights) => {
+
+
+                get_attendance(msg);
+            })
         }
 
-        if (msg.content === '!warn_members' && right) {
-            get_attendance(msg, 'warning');
+        if (msg.content === '!warn_members') {
+            checkAdminRights(msg).then((rights) => {
+
+
+                get_attendance(msg, 'warning');
+            })
         }
 
-        if (msg.content === '!send_vacation' && right) {
-            get_non_attendance(msg);
+        if (msg.content === '!send_vacation') {
+            checkAdminRights(msg).then((rights) => {
+
+
+                get_non_attendance(msg);
+            })
         }
 
-        if (msg.content === '!read_settings' && right) {
-            readSettings(msg);
+        if (msg.content === '!read_settings') {
+            checkAdminRights(msg).then((rights) => {
+
+                readSettings(msg);
+            })
+
         }
 
     })
