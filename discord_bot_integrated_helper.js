@@ -254,7 +254,7 @@ var get_attendance = (msg, control) => {
 
         var spammer = discordUncompletedMembers.join('\n');
 
-        readSettings().then((ws) => {
+        readSettings(workSheet).then((ws) => {
             var workS = ws[0];
 
             var spamMessage =
