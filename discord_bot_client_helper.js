@@ -322,6 +322,8 @@ var mainFunct = () => {
 
         client = dis_client;
 
+        console.log(client);
+
         var delay = 500;
 
         if (msg.content === '!best_sea_guild?') {
