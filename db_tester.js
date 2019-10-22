@@ -14,8 +14,9 @@ db_helper.guild_all_rows().then((guildRows) => {
                     guild_Discord_ID : gRow.Discord_ID,
                     Developer_ID : gRow.Developer_ID,
                 }
-                
-                discord(settings);
+                if(gRow.ID == 3){
+                    discord(settings);
+                }
             })
         })
     })
