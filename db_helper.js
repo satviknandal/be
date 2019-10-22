@@ -62,6 +62,10 @@ var configuration_f_r = (param) => {
 }
 
 
+var guild_event_f_r = (param) => {
+    return first_Row(`SELECT g.*, e.*, e.ID as 'EventID' FROM Guild g LEFT JOIN Event e on g.ID = e.Guild_ID WHERE g.Discord_ID = ? AND = e.Announcement_Channel_ID = ?`, [param.a, param.b]);
+}
+
 
 let close_db = () => {
 
@@ -83,6 +87,7 @@ var mainFunct = (res) => {
     this.permissions_all_rows = (param) => permissions_a_r(param);
     this.configuration_all_rows = (param) => configuration_a_r(param);
     this.configuration_first_row = (param) => configuration_f_r(param);
+    this.guild_event_first_row = (param) => guild_event_f_r(param);
 
     return this;
 }

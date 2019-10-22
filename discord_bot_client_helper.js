@@ -99,15 +99,6 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 }
 
 var scheduler = () => {
-    // schedulerProcess(3, 21, 1, 'initial');
-    // schedulerProcess(4, 21, 1);
-    // schedulerProcess(4, 23, 1, 'vacation');
-    // schedulerProcess(5, 9, 1, 'vacation');
-    // schedulerProcess(5, 21, 1);
-    // schedulerProcess(4, 8, 51);
-    // schedulerProcess(5, 8, 51);
-    // schedulerProcess(0, 21, 00, 'warning');
-
     db_helper.schedule_all_rows(setting.ID).then((sRows) => {
         sRows.forEach((sRow) => {
             schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
@@ -294,52 +285,42 @@ var get_attendance = (msg, control) => {
 
 }
 
+let specMessages = (msg) => {
 
-let checkContext = (guild_Discord_ID, channelID) => {
-    console.log(guild_Discord_ID, setting.guild_Discord_ID, channelID, setting.Announcement_Channel_ID);
-    return guild_Discord_ID == setting.guild_Discord_ID && channelID == setting.Announcement_Channel_ID;
+    return new Promise((resolve, reject) => {
+
+        db.guild_event_first_row(msg.guild.id, msg.channel.id).then((geRow) => {
+
+            let settings = {
+                ID: geRow.EventID,
+                Announcement_Channel_ID: geRow.Announcement_Channel_ID,
+                Event_Role_ID: geRow.Event_Role_ID,
+                Guild_ID: geRow.Guild_ID,
+                guildID: gRow.ID,
+                guild_Discord_ID: gRow.Discord_ID,
+                Developer_ID: gRow.Developer_ID
+            }
+
+            init(settings).then((res) => {
+                resolve(res);
+            })
+        })
+    })
 }
 
 
-var mainFunct = async (settings) => {
+var mainFunct = () => {
+    this.scheduler = (settings) => {
+        init(settings).then((res) => {
+            scheduler();
+            console.log(`Setup complete for ${client.user.tag} on G_ID : ${settings.guildID} & E_ID : ${settings.ID}`);
+        })
+    }
 
-    result = await init(settings);
 
-    var right = await checkAdminRights(msg);
-
-    client.on('ready', (res) => {
-        console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.guildID} & E_ID : ${settings.ID}`);
-        var sche = scheduler();
-    });
-
-    client.on('message', async (msg) => {
-
-        if (!checkContext(msg.guild.id, msg.channel.id)) {
-            return;
-        }
+    this.messageHandler = (msg) => {
 
         var delay = 3000;
-
-        // if (msg.content.startsWith('!update_forms')) {
-        //     var msgArr = (msg.content.split(' '));
-        //     var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
-        //     msg.delete(1000);
-        //     writeFile({
-        //         message: link
-        //     }, 'message.json');
-        //     sendForms();
-        //     msg.channel.send('Forms for the week updated.');
-        // }
-
-        // if (msg.content.startsWith('!update_sheet')) {
-        //     var msgArr = (msg.content.split(' '));
-        //     var sheet = msgArr.length > 0 ? msgArr[1] : 'no sheet defined, please contact Kiki';
-        //     msg.delete(1000);
-        //     writeFile({
-        //         sheet: sheet
-        //     }, 'sheet.json');
-        //     msg.channel.send('Sheet for the week updated.');
-        // }
 
         if (msg.content === '!best_castle?') {
             msg.channel.send('The castle of Sycria Underwater Ruins.');
@@ -350,52 +331,61 @@ var mainFunct = async (settings) => {
             msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
         }
 
+        if (msg.content === '!rsvp_help') {
 
+            specMessages.then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    if (right) {
+                        var guide = "Tell current time : \n!tell_time" +
+                            "\n2)Send Announcements : \n!send_announcements" +
+                            "\n3)Send Reminder : \n!check_members" +
+                            "\n4)Warn Members : \n!warn_members" +
+                            "\n5)Remind Vacationers : \n!send_vacation";
+                        msg.delete(delay);
+                        msg.channel.send(guide);
+                    }
+                })
 
-
-        if (msg.content === '!rsvp_help' && right) {
-            var guide = "Tell current time : \n!tell_time" +
-                "\n2)Send Announcements : \n!send_announcements" +
-                "\n3)Send Reminder : \n!check_members" +
-                "\n4)Warn Members : \n!warn_members" +
-                "\n5)Remind Vacationers : \n!send_vacation";
-            msg.delete(delay);
-            msg.channel.send(guide);
+            })
 
         }
 
-        if (msg.content === '!tell_time' && right) {
-            console.log('TIME : ', setting);
-            var datetime = (new Date()).toLocaleString();
-            msg.delete(delay);
-            msg.channel.send(datetime);
-        }
+        // if (msg.content === '!tell_time') {
+        //     var datetime = (new Date()).toLocaleString();
+        //     msg.delete(delay);
+        //     msg.channel.send(datetime);
+        // }
 
-        if (msg.content === '!send_announcements' && right) {
-            msg.delete(delay);
-            sendForms();
-        }
+        // if (msg.content === '!send_announcements') {
+        //     msg.delete(delay);
+        //     sendForms();
+        // }
 
-        if (msg.content === '!check_members' && right) {
-            get_attendance(msg);
-        }
+        // if (msg.content === '!check_members') {
+        //     get_attendance(msg);
+        // }
 
-        if (msg.content === '!warn_members' && right) {
-            get_attendance(msg, 'warning');
-        }
+        // if (msg.content === '!warn_members') {
+        //     get_attendance(msg, 'warning');
+        // }
 
-        if (msg.content === '!send_vacation' && right) {
-            get_non_attendance(msg);
-        }
+        // if (msg.content === '!send_vacation') {
+        //     get_non_attendance(msg);
+        // }
 
-        if (msg.content === '!read_settings' && right) {
-            readSettings(msg);
-        }
-
-    })
+        // if (msg.content === '!read_settings') {
+        //     readSettings(msg);
+        // }
 
 
-    return client;
+
+
+
+
+    }
+
+
+    return this;
 }
 
 module.exports = mainFunct;
