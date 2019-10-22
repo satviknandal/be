@@ -116,21 +116,22 @@ var scheduler = () => {
 }
 
 var checkAdminRights = (msg) => {
+    console.log('check Admin Right');
     return new Promise((resolve, reject) => {
-        db_helper.permissions_all_rows(setting.ID).then((perRows) => {
+        // db_helper.permissions_all_rows(setting.ID).then((perRows) => {
 
-            var right = msg.member.roles.some(role =>
-                perRows.some((perRow) => role.name.includes(perRow.Role))
-            );
+        //     var right = msg.member.roles.some(role =>
+        //         perRows.some((perRow) => role.name.includes(perRow.Role))
+        //     );
 
-            if (!right) {
-                msg.delete(1000);
-                msg.reply("Sorry you dont have permission to use this :(");
-            }
+        //     if (!right) {
+        //         msg.delete(1000);
+        //         msg.reply("Sorry you dont have permission to use this :(");
+        //     }
 
-            resolve(right);
-        })
-
+        //     resolve(right);
+        // })
+        resolve(true);
     })
 }
 
@@ -309,7 +310,7 @@ var mainFunct = async (settings) => {
         var sche = scheduler();
     });
 
-    client.on('message', async(msg) => {
+    client.on('message', async (msg) => {
 
         if (!checkContext(msg.guild.id, msg.channel.id)) {
             return;
