@@ -338,8 +338,13 @@ var mainFunct = () => {
             msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
         }
 
-        if (msg.content === '!rsvp_help') {
+        if (msg.content === '!tell_time') {
+            var datetime = (new Date()).toLocaleString();
+            msg.delete(delay);
+            msg.channel.send(datetime);
+        }
 
+        if (msg.content === '!rsvp_help') {
             specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
                     if (right) {
@@ -352,43 +357,51 @@ var mainFunct = () => {
                         msg.channel.send(guide);
                     }
                 })
-
             })
-
         }
 
-        // if (msg.content === '!tell_time') {
-        //     var datetime = (new Date()).toLocaleString();
-        //     msg.delete(delay);
-        //     msg.channel.send(datetime);
-        // }
 
-        // if (msg.content === '!send_announcements') {
-        //     msg.delete(delay);
-        //     sendForms();
-        // }
+        if (msg.content === '!send_announcements') {
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    msg.delete(delay);
+                    sendForms();
+                })
+            })
+        }
 
-        // if (msg.content === '!check_members') {
-        //     get_attendance(msg);
-        // }
+        if (msg.content === '!check_members') {
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    get_attendance(msg);
+                })
+            })
+        }
 
-        // if (msg.content === '!warn_members') {
-        //     get_attendance(msg, 'warning');
-        // }
+        if (msg.content === '!warn_members') {
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    get_attendance(msg, 'warning');
+                })
+            })
+        }
 
-        // if (msg.content === '!send_vacation') {
-        //     get_non_attendance(msg);
-        // }
+        if (msg.content === '!send_vacation') {
 
-        // if (msg.content === '!read_settings') {
-        //     readSettings(msg);
-        // }
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    get_non_attendance(msg);
+                })
+            })
+        }
 
-
-
-
-
-
+        if (msg.content === '!read_settings') {
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+                    readSettings(msg);
+                })
+            })
+        }
     }
 
 
