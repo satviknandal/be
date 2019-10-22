@@ -305,6 +305,9 @@ module.exports = (settings) => {
 
         client.on('message', (msg) => {
 
+
+            var delay = 3000;
+
             // if (msg.content.startsWith('!update_forms')) {
             //     var msgArr = (msg.content.split(' '));
             //     var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
@@ -331,13 +334,13 @@ module.exports = (settings) => {
             }
 
             if (msg.content === '!complaints') {
-                msg.delete(1000);
+                msg.delete(delay);
                 msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
             }
 
-           // var right = await checkAdminRights(msg);
+            // var right = await checkAdminRights(msg);
 
-           var right = true;
+            var right = true;
 
             if (msg.content === '!rsvp_help' && right) {
                 var guide = "Tell current time : \n!tell_time" +
@@ -345,19 +348,19 @@ module.exports = (settings) => {
                     "\n3)Send Reminder : \n!check_members" +
                     "\n4)Warn Members : \n!warn_members" +
                     "\n5)Remind Vacationers : \n!send_vacation";
-                msg.delete(1000);
+                msg.delete(delay);
                 msg.channel.send(guide);
 
             }
 
             if (msg.content === '!tell_time' && right) {
                 var datetime = (new Date()).toLocaleString();
-                msg.delete(1000);
+                msg.delete(delay);
                 msg.channel.send(datetime);
             }
 
             if (msg.content === '!send_announcements' && right) {
-                msg.delete(1000);
+                msg.delete(delay);
                 sendForms();
             }
 
