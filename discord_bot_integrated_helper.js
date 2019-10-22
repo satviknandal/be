@@ -28,6 +28,8 @@ var readFile = (path) => {
 var init = (settings) => {
     return new Promise((resolve, reject) => {
 
+       console.log(settings);
+
         setting = settings;
         siegeMember = "<@" + settings.Event_Role_ID + ">";
         me = "<@" + settings.Developer_ID + ">";
