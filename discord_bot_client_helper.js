@@ -291,7 +291,7 @@ let specMessages = (msg) => {
 
     return new Promise((resolve, reject) => {
 
-        db.guild_event_first_row(msg.guild.id, msg.channel.id).then((geRow) => {
+        db_helper.guild_event_first_row(msg.guild.id, msg.channel.id).then((geRow) => {
 
             let settings = {
                 ID: geRow.EventID,
