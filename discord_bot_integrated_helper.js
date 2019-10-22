@@ -33,7 +33,7 @@ var init = (settings) => {
         me = "<@" + settings.Developer_ID + ">";
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
-           
+            console.log('CROW : ', cRow);
             sheet = cRow.sheet;
             workSheet = cRow.workSheet;
             //setTimeout if needed
@@ -54,7 +54,7 @@ var writeFile = (obj, path) => {
 var readSettings = (work_Sheet) => {
     var credentials = atob(creds.json);
 
-    console.log('S N W',sheet,workSheet);
+    console.log('S N W', sheet, workSheet);
 
     let prom = gsjson({
         spreadsheetId: sheet,
