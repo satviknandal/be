@@ -210,7 +210,7 @@ var get_non_attendance = (msg, control) => {
         readSettings().then((ws) => {
             var workS = ws[0];
 
-            var spamMessage = 'Thank you for filling RSVP ' + workS.updated + ' for this week!\n' +
+            var spamMessage = 'Thank you for filling RSVP ' + workS.updated + ' for the week!\n' +
                 'Please be reminded to set your vacation status to [Yes] before siege!' + '\n' + spammer +
                 '\nAny issues please inform ' + me;
 
@@ -261,7 +261,7 @@ var get_attendance = (msg, control) => {
                 control && control == 'warning' ?
                     'Unfortunately the below list of members have failed to fill up RSVP for the week (' + workS.updated + ')  :(\n' +
                     spammer + '\nIf you have already filled the form but still see your name here inform ' + me :
-                    'Please fill up the document/s prepared on ' + workS.updated + ' for this week!\n' +
+                    'Please fill up the document/s prepared on ' + workS.updated + ' for the week!\n' +
                     workS.g_forms_link + '\n' + spammer + '\nIf you have already filled the document but still see your name here inform ' + me;
 
             console.log('Message : ' + spamMessage);
