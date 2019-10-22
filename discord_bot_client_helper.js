@@ -286,8 +286,6 @@ let specMessages = (msg) => {
 
     return new Promise((resolve, reject) => {
 
-        console.log(msg.guild.id, msg.channel.id);
-
         db_helper.guild_event_first_row({
             a: msg.guild.id,
             b: msg.channel.id
