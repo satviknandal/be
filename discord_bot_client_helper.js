@@ -327,7 +327,11 @@ var mainFunct = () => {
 
         client = dis_client;
 
-        var delay = 3000;
+        var delay = 500;
+
+        if(msg.content === '!best_sea_guild?'){
+            msg.channel.send('The highest leveled player in SEA is in?...');
+        }
 
         if (msg.content === '!best_castle?') {
             msg.channel.send('The castle of Sycria Underwater Ruins.');
