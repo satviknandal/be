@@ -28,17 +28,18 @@ var readFile = (path) => {
 var init = (settings) => {
     return new Promise((resolve, reject) => {
 
-       console.log(settings);
-
         setting = settings;
         siegeMember = "<@" + settings.Event_Role_ID + ">";
         me = "<@" + settings.Developer_ID + ">";
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
-            console.log(cRow);
+           
             sheet = cRow.sheet;
             workSheet = cRow.workSheet;
             //setTimeout if needed
+
+            console.log('SNW : ', sheet, workSheet);
+
             resolve(true);
         })
     })

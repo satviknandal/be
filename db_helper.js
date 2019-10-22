@@ -10,7 +10,6 @@ let first_Row = (sql, param) => {
             if (err) {
                 return console.error(err.message);
             }
-            console.log('ROW FR : ', row);
             resolve(row);
             return row
                 ? console.log(row.ID, row.Sheet)
@@ -26,11 +25,12 @@ let all_rows = (sql, param) => {
             if (err) {
                 throw err;
             }
-            console.log(rows);
-            resolve(rows);
+
             rows.forEach((row) => {
                 console.log(row.ID);
             });
+
+            resolve(rows);
         });
     });
 }
