@@ -303,7 +303,7 @@ module.exports = (settings) => {
             var sche = scheduler();
         });
 
-        client.on('message', msg => {
+        client.on('message', async(msg) => {
 
             // if (msg.content.startsWith('!update_forms')) {
             //     var msgArr = (msg.content.split(' '));
@@ -335,46 +335,45 @@ module.exports = (settings) => {
                 msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
             }
 
-            checkAdminRights(msg).then((right) => {
+            var right = await checkAdminRights(msg);
 
-                if (msg.content === '!rsvp_help' && right) {
-                    var guide = "Tell current time : \n!tell_time" +
-                        "\n2)Send Announcements : \n!send_announcements" +
-                        "\n3)Send Reminder : \n!check_members" +
-                        "\n4)Warn Members : \n!warn_members" +
-                        "\n5)Remind Vacationers : \n!send_vacation";
-                    msg.delete(1000);
-                    msg.channel.send(guide);
+            if (msg.content === '!rsvp_help' && right) {
+                var guide = "Tell current time : \n!tell_time" +
+                    "\n2)Send Announcements : \n!send_announcements" +
+                    "\n3)Send Reminder : \n!check_members" +
+                    "\n4)Warn Members : \n!warn_members" +
+                    "\n5)Remind Vacationers : \n!send_vacation";
+                msg.delete(1000);
+                msg.channel.send(guide);
 
-                }
+            }
 
-                if (msg.content === '!tell_time' && right) {
-                    var datetime = (new Date()).toLocaleString();
-                    msg.delete(1000);
-                    msg.channel.send(datetime);
-                }
+            if (msg.content === '!tell_time' && right) {
+                var datetime = (new Date()).toLocaleString();
+                msg.delete(1000);
+                msg.channel.send(datetime);
+            }
 
-                if (msg.content === '!send_announcements' && right) {
-                    msg.delete(1000);
-                    sendForms();
-                }
+            if (msg.content === '!send_announcements' && right) {
+                msg.delete(1000);
+                sendForms();
+            }
 
-                if (msg.content === '!check_members' && right) {
-                    get_attendance(msg);
-                }
+            if (msg.content === '!check_members' && right) {
+                get_attendance(msg);
+            }
 
-                if (msg.content === '!warn_members' && right) {
-                    get_attendance(msg, 'warning');
-                }
+            if (msg.content === '!warn_members' && right) {
+                get_attendance(msg, 'warning');
+            }
 
-                if (msg.content === '!send_vacation' && right) {
-                    get_non_attendance(msg);
-                }
+            if (msg.content === '!send_vacation' && right) {
+                get_non_attendance(msg);
+            }
 
-                if (msg.content === '!read_settings' && right) {
-                    readSettings(msg);
-                }
-            })
+            if (msg.content === '!read_settings' && right) {
+                readSettings(msg);
+            }
 
         })
 
