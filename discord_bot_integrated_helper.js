@@ -363,7 +363,7 @@ var mainFunct = async (settings) => {
 
             if (msg.content === '!tell_time') {
                 checkAdminRights(msg).then((rights) => {
-                    console.log('TT');
+                    console.log('TT', setting);
                     var datetime = (new Date()).toLocaleString();
                     msg.delete(delay);
                     msg.channel.send(datetime);
