@@ -303,7 +303,7 @@ module.exports = (settings) => {
             var sche = scheduler();
         });
 
-        client.on('message', async(msg) => {
+        client.on('message', (msg) => {
 
             // if (msg.content.startsWith('!update_forms')) {
             //     var msgArr = (msg.content.split(' '));
@@ -335,7 +335,9 @@ module.exports = (settings) => {
                 msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
             }
 
-            var right = await checkAdminRights(msg);
+           // var right = await checkAdminRights(msg);
+
+           var right = true;
 
             if (msg.content === '!rsvp_help' && right) {
                 var guide = "Tell current time : \n!tell_time" +
