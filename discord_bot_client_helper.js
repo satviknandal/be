@@ -330,6 +330,10 @@ var mainFunct = () => {
             msg.channel.send('The highest leveled player in SEA is in?...');
         }
 
+        if (msg.content === '!worst_sea_guild?') {
+            msg.channel.send('The lowest leveled player in SEA is -   \nnah the ones who lack a spine, even more so than the backbone of a fossilized snail.');
+        }
+
         if (msg.content === '!best_castle?') {
             msg.channel.send('The castle of Sycria Underwater Ruins.');
         }
