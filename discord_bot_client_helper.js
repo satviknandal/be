@@ -291,7 +291,10 @@ let specMessages = (msg) => {
 
     return new Promise((resolve, reject) => {
 
-        db_helper.guild_event_first_row(msg.guild.id, msg.channel.id).then((geRow) => {
+        db_helper.guild_event_first_row({
+            a: msg.guild.id,
+            b: msg.channel.id
+        }).then((geRow) => {
 
             let settings = {
                 ID: geRow.EventID,
@@ -321,7 +324,7 @@ var mainFunct = () => {
 
 
     this.messageHandler = (msg, dis_client) => {
-        
+
         client = dis_client;
 
         var delay = 3000;
