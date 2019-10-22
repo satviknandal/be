@@ -8,19 +8,20 @@ var db_helper = db();
 db_helper.guild_all_rows().then((guildRows) => {
     guildRows.forEach((gRow) => {
         db_helper.event_all_rows(gRow.ID).then((eventRows) => {
-            console.log('eventRows' , eventRows);
-            eventRows.forEach((eRow) => {
-                let settings = { 
+            console.log('eventRows', eventRows);
+            eventRows.forEach(async (eRow) => {
+                let settings = {
                     ...eRow,
-                    guildID :  gRow.ID,
-                    guild_Discord_ID : gRow.Discord_ID,
-                    Developer_ID : gRow.Developer_ID,
-                    dis_client : client
+                    guildID: gRow.ID,
+                    guild_Discord_ID: gRow.Discord_ID,
+                    Developer_ID: gRow.Developer_ID,
+                    dis_client: client
                 }
-                if(gRow.ID == 3){
-                    console.log(discord(settings));
+                if (gRow.ID == 3) {
+                    let client = await discord(settings);
+                    console.log(client);
                 }
-             
+
             })
         })
     })
