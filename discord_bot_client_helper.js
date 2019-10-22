@@ -17,7 +17,7 @@ let workSheet;
 let siegeMember;
 
 let me;
-let client = new Discord.Client();
+let client;
 
 var readFile = (path) => {
     var rawdata = fs.readFileSync(path);
