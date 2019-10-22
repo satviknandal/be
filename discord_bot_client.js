@@ -8,6 +8,10 @@ var gsjson = require('google-spreadsheet-to-json');
 var creds = require('./google-generated-creds.json');
 const db = require('./db_helper');
 
+
+let client = new Discord.Client();
+
+
 var mainFunct = async () => {
 
     // result = await init(settings);
@@ -24,7 +28,8 @@ var mainFunct = async () => {
                         ...eRow,
                         guildID: gRow.ID,
                         guild_Discord_ID: gRow.Discord_ID,
-                        Developer_ID: gRow.Developer_ID
+                        Developer_ID: gRow.Developer_ID,
+                        dis_client : client
                     }
                     var discord_client_helper = discord_Helper();
                     discord_client_helper.scheduler(settings);
@@ -37,7 +42,7 @@ var mainFunct = async () => {
     // accept all messages from all guilds
     client.on('message', async (msg) => {
         var discord_client_helper = discord_Helper();
-        discord_client_helper.messageHandler(msg);
+        discord_client_helper.messageHandler(msg, client);
     })
 
     client.login(atob(auth.token));

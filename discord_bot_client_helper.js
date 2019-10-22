@@ -31,6 +31,8 @@ var init = (settings) => {
         setting = settings;
         siegeMember = "<@" + settings.Event_Role_ID + ">";
         me = "<@" + settings.Developer_ID + ">";
+        client = settings.dis_client;
+
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
             sheet = cRow.Sheet;
@@ -318,7 +320,9 @@ var mainFunct = () => {
     }
 
 
-    this.messageHandler = (msg) => {
+    this.messageHandler = (msg, dis_client) => {
+        
+        client = dis_client;
 
         var delay = 3000;
 
