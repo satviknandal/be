@@ -53,8 +53,6 @@ var writeFile = (obj, path) => {
 var readSettings = (work_Sheet) => {
     var credentials = atob(creds.json);
 
-    console.log('S N W', sheet, workSheet);
-
     let prom = gsjson({
         spreadsheetId: sheet,
         credentials: credentials,
@@ -67,7 +65,6 @@ var readSettings = (work_Sheet) => {
 }
 
 var sendForms = () => {
-    console.log(workSheet)
     readSettings(worksheet).then((ws) => {
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
@@ -109,22 +106,20 @@ var scheduler = () => {
 }
 
 var checkAdminRights = (msg) => {
-    console.log('check Admin Right');
     return new Promise((resolve, reject) => {
-        // db_helper.permissions_all_rows(setting.ID).then((perRows) => {
+        db_helper.permissions_all_rows(setting.ID).then((perRows) => {
 
-        //     var right = msg.member.roles.some(role =>
-        //         perRows.some((perRow) => role.name.includes(perRow.Role))
-        //     );
+            var right = msg.member.roles.some(role =>
+                perRows.some((perRow) => role.name.includes(perRow.Role))
+            );
 
-        //     if (!right) {
-        //         msg.delete(1000);
-        //         msg.reply("Sorry you dont have permission to use this :(");
-        //     }
+            if (!right) {
+                msg.delete(1000);
+                msg.reply("Sorry you dont have permission to use this :(");
+            }
 
-        //     resolve(right);
-        // })
-        resolve(true);
+            resolve(right);
+        })
     })
 }
 
@@ -329,7 +324,7 @@ var mainFunct = () => {
 
         var delay = 500;
 
-        if(msg.content === '!best_sea_guild?'){
+        if (msg.content === '!best_sea_guild?') {
             msg.channel.send('The highest leveled player in SEA is in?...');
         }
 

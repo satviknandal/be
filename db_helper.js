@@ -5,7 +5,7 @@ let db = new sqlite3.Database('../discord_db/discord_bot_siege_db');
 
 let first_Row = (sql, param) => {
     return new Promise(function (resolve, reject) {
-        console.log(sql, param);
+        // console.log(sql, param);
         // first row only
         db.get(sql, param ? param : [], (err, row) => {
             if (err) {
@@ -20,17 +20,13 @@ let first_Row = (sql, param) => {
 }
 
 let all_rows = (sql, param) => {
-    console.log(sql, param);
+    // console.log(sql, param);
     return new Promise(function (resolve, reject) {
         // first row only
         db.all(sql, param ? param : [], (err, rows) => {
             if (err) {
                 throw err;
             }
-
-            rows.forEach((row) => {
-                console.log(row.ID);
-            });
 
             resolve(rows);
         });
