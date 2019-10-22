@@ -166,7 +166,7 @@ var getDiscordGuildies = (discordGuildMembers, completed) => {
 }
 
 
-var getGoogleSheet = () => {
+var getGoogleSheet = (msg) => {
 
     return new Promise((resolve, reject) => {
 
@@ -203,7 +203,7 @@ var filterAttendance = () => {
 
 var get_non_attendance = (msg, control) => {
 
-    getGoogleSheet().then((completed) => {
+    getGoogleSheet(msg).then((completed) => {
         var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
         var non_attendees = completed.filter((complete) => {
@@ -245,7 +245,7 @@ var get_non_attendance = (msg, control) => {
 
 var get_attendance = (msg, control) => {
 
-    getGoogleSheet().then((completed) => {
+    getGoogleSheet(msg).then((completed) => {
         var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
         var discordCompletedMembers = getDiscordGuildies(discordGuildMembers, completed);
@@ -294,6 +294,12 @@ var get_attendance = (msg, control) => {
 }
 
 
+let checkContext = (guild_Discord_ID, channelID) => {
+    console.log(guild_Discord_ID, setting.Discord_ID, channelID, setting.Announcement_Channel_ID);
+    return guild_Discord_ID == setting.Discord_ID && channelID == setting.Announcement_Channel_ID;
+}
+
+
 var mainFunct = async (settings) => {
 
     result = await init(settings);
@@ -305,6 +311,9 @@ var mainFunct = async (settings) => {
 
     client.on('message', (msg) => {
 
+        if (!checkContext(msg.guild.id, msg.channel.id)) {
+            return;
+        }
 
         var delay = 3000;
 
@@ -338,9 +347,8 @@ var mainFunct = async (settings) => {
             msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
         }
 
-        // var right = await checkAdminRights(msg);
+        var right = await checkAdminRights(msg);
 
-        var right = true;
 
         if (msg.content === '!rsvp_help' && right) {
             var guide = "Tell current time : \n!tell_time" +
