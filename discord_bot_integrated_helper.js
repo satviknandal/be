@@ -50,6 +50,8 @@ var writeFile = (obj, path) => {
 var readSettings = (work_Sheet) => {
     var credentials = atob(creds.json);
 
+    console.log('S N W',sheet,workSheet);
+
     let prom = gsjson({
         spreadsheetId: sheet,
         credentials: credentials,
@@ -57,11 +59,12 @@ var readSettings = (work_Sheet) => {
         // other options...
     });
 
-    prom.then((obj) => { console.log(obj) });
+    //prom.then((obj) => { console.log(obj) });
     return prom;
 }
 
 var sendForms = () => {
+    console.log(workSheet)
     readSettings(worksheet).then((ws) => {
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
