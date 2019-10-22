@@ -309,7 +309,7 @@ var mainFunct = async (settings) => {
         var sche = scheduler();
     });
 
-    client.on('message', (msg) => {
+    client.on('message', async(msg) => {
 
         if (!checkContext(msg.guild.id, msg.channel.id)) {
             return;
