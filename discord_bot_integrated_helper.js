@@ -33,12 +33,9 @@ var init = (settings) => {
         me = "<@" + settings.Developer_ID + ">";
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
-            console.log('CROW : ', cRow);
-            sheet = cRow.sheet;
-            workSheet = cRow.workSheet;
+            sheet = cRow.Sheet;
+            workSheet = cRow.WorkSheet;
             //setTimeout if needed
-
-            console.log('SNW : ', sheet, workSheet);
 
             resolve(true);
         })
