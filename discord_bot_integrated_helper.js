@@ -296,7 +296,7 @@ var get_attendance = (msg, control) => {
 
 module.exports = (settings) => {
 
-    init(settings).then(async (result) => {
+    init(settings).then((result) => {
 
         client.on('ready', (res) => {
             console.log(`Logged in as ${client.user.tag} on G_ID : ${settings.guildID} & E_ID : ${settings.ID}`);
@@ -305,7 +305,7 @@ module.exports = (settings) => {
 
         client.on('message', msg => {
 
-            // if (msg.content.startsWith('!update_forms') && checkAdminRights(msg)) {
+            // if (msg.content.startsWith('!update_forms')) {
             //     var msgArr = (msg.content.split(' '));
             //     var link = msgArr.length > 0 ? msgArr[1] : 'no link defined, please contact Kiki';
             //     msg.delete(1000);
@@ -316,7 +316,7 @@ module.exports = (settings) => {
             //     msg.channel.send('Forms for the week updated.');
             // }
 
-            // if (msg.content.startsWith('!update_sheet') && checkAdminRights(msg)) {
+            // if (msg.content.startsWith('!update_sheet')) {
             //     var msgArr = (msg.content.split(' '));
             //     var sheet = msgArr.length > 0 ? msgArr[1] : 'no sheet defined, please contact Kiki';
             //     msg.delete(1000);
@@ -326,53 +326,55 @@ module.exports = (settings) => {
             //     msg.channel.send('Sheet for the week updated.');
             // }
 
-
-            if (msg.content === '!rsvp_help' && (await checkAdminRights(msg))) {
-                var guide = "Tell current time : \n!tell_time" +
-                    "\n2)Send Announcements : \n!send_announcements" +
-                    "\n3)Send Reminder : \n!check_members" +
-                    "\n4)Warn Members : \n!warn_members" +
-                    "\n5)Remind Vacationers : \n!send_vacation";
-                msg.delete(1000);
-                msg.channel.send(guide);
-
-            }
-
-            if (msg.content === '!tell_time' && await checkAdminRights(msg)) {
-                var datetime = (new Date()).toLocaleString();
-                msg.delete(1000);
-                msg.channel.send(datetime);
-            }
-
-            if (msg.content === '!send_announcements' && await checkAdminRights(msg)) {
-                msg.delete(1000);
-                sendForms();
-            }
-
-            if (msg.content === '!check_members' && await checkAdminRights(msg)) {
-                get_attendance(msg);
-            }
-
-            if (msg.content === '!warn_members' && await checkAdminRights(msg)) {
-                get_attendance(msg, 'warning');
-            }
-
-            if (msg.content === '!send_vacation' && await checkAdminRights(msg)) {
-                get_non_attendance(msg);
-            }
-
-            if (msg.content === '!read_settings' && await checkAdminRights(msg)) {
-                readSettings(msg);
-            }
-
-            if (msg.content === '!best_castle?' && await checkAdminRights(msg)) {
+            if (msg.content === '!best_castle?') {
                 msg.channel.send('The castle of Sycria Underwater Ruins.');
             }
 
-            if (msg.content === '!complaints' && await checkAdminRights(msg)) {
+            if (msg.content === '!complaints') {
                 msg.delete(1000);
                 msg.channel.send('Don\'t like the RSVP Bot spam?\nhttps://youtu.be/ynMk2EwRi4Q');
             }
+
+            checkAdminRights(msg).then((right) => {
+
+                if (msg.content === '!rsvp_help' && right) {
+                    var guide = "Tell current time : \n!tell_time" +
+                        "\n2)Send Announcements : \n!send_announcements" +
+                        "\n3)Send Reminder : \n!check_members" +
+                        "\n4)Warn Members : \n!warn_members" +
+                        "\n5)Remind Vacationers : \n!send_vacation";
+                    msg.delete(1000);
+                    msg.channel.send(guide);
+
+                }
+
+                if (msg.content === '!tell_time' && right) {
+                    var datetime = (new Date()).toLocaleString();
+                    msg.delete(1000);
+                    msg.channel.send(datetime);
+                }
+
+                if (msg.content === '!send_announcements' && right) {
+                    msg.delete(1000);
+                    sendForms();
+                }
+
+                if (msg.content === '!check_members' && right) {
+                    get_attendance(msg);
+                }
+
+                if (msg.content === '!warn_members' && right) {
+                    get_attendance(msg, 'warning');
+                }
+
+                if (msg.content === '!send_vacation' && right) {
+                    get_non_attendance(msg);
+                }
+
+                if (msg.content === '!read_settings' && right) {
+                    readSettings(msg);
+                }
+            })
 
         })
 
