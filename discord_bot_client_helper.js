@@ -21,6 +21,8 @@ let client;
 
 let event_google_sheet = "0";
 
+let delay = 500;
+
 var readFile = (path) => {
     var rawdata = fs.readFileSync(path);
     var obj = JSON.parse(rawdata);
@@ -221,7 +223,7 @@ var get_non_attendance = (msg, control) => {
             console.log('Message : ' + spamMessage);
 
             if (msg) {
-                msg.delete(1000);
+                msg.delete(delay);
                 msg.channel.send('Vacation reminder will be sent shortly :)');
             }
             client.channels.get(setting.Announcement_Channel_ID).send(spamMessage);
@@ -351,7 +353,7 @@ var mainFunct = () => {
 
     this.messageHandler = (msg, dis_client) => {
 
-        var delay = 500;
+        
 
         if (msg.content === '!best_sea_guild?') {
             msg.channel.send('The highest leveled player in SEA is in?...');
