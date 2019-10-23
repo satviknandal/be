@@ -442,10 +442,7 @@ var mainFunct = () => {
         if (msg.content === '!check_attendance') {
             specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
-
-
-
-
+                    get_astray(msg);
                 })
             })
         }
