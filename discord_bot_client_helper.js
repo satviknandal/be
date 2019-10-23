@@ -38,7 +38,7 @@ var init = (settings) => {
             sheet = cRow.Sheet;
             workSheet = cRow.WorkSheet;
             //setTimeout if needed
-
+            console.log(worksheet);
             resolve(true);
         })
     })
@@ -65,8 +65,8 @@ var readSettings = (work_Sheet) => {
 }
 
 var sendForms = () => {
-    console.log(setting.workSheet);
-    readSettings(setting.workSheet).then((ws) => {
+    console.log(workSheet);
+    readSettings(workSheet).then((ws) => {
         console.log('ws', ws)
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
@@ -300,7 +300,7 @@ let specMessages = (msg) => {
                 guildID: geRow.ID,
                 guild_Discord_ID: geRow.Discord_ID,
                 Developer_ID: geRow.Developer_ID,
-                dis_client : client
+                dis_client: client
             }
 
             init(settings).then((res) => {
