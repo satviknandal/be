@@ -38,7 +38,7 @@ var init = (settings) => {
             sheet = cRow.Sheet;
             workSheet = cRow.WorkSheet;
             //setTimeout if needed
-            console.log(worksheet);
+            console.log(workSheet);
             resolve(true);
         })
     })
