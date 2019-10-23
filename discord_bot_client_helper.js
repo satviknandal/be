@@ -233,7 +233,6 @@ var get_non_attendance = (msg, control) => {
 }
 
 var get_attendance = (msg, control) => {
-    console.log(client.guilds, '??????');
     getGoogleSheet(msg).then((completed) => {
         var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
@@ -298,7 +297,8 @@ let specMessages = (msg) => {
                 Guild_ID: geRow.Guild_ID,
                 guildID: geRow.ID,
                 guild_Discord_ID: geRow.Discord_ID,
-                Developer_ID: geRow.Developer_ID
+                Developer_ID: geRow.Developer_ID,
+                dis_client : client
             }
 
             init(settings).then((res) => {
@@ -322,7 +322,7 @@ var mainFunct = () => {
 
         client = dis_client;
 
-        console.log(client.guilds,  '??????-');
+        console.log(client.guilds);
 
         var delay = 500;
 
