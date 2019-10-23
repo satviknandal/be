@@ -67,7 +67,6 @@ var readSettings = (work_Sheet) => {
 
 var sendForms = () => {
     readSettings(settings_workSheet).then((ws) => {
-        console.log('ws', ws)
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
     })
