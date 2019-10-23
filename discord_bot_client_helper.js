@@ -65,7 +65,7 @@ var readSettings = (work_Sheet) => {
 }
 
 var sendForms = () => {
-    readSettings(worksheet).then((ws) => {
+    readSettings(setting.workSheet).then((ws) => {
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
     })
@@ -319,10 +319,6 @@ var mainFunct = () => {
 
 
     this.messageHandler = (msg, dis_client) => {
-
-        client = dis_client;
-
-        console.log(client.guilds);
 
         var delay = 500;
 
