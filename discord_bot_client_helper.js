@@ -322,7 +322,7 @@ var mainFunct = () => {
 
         client = dis_client;
 
-        console.log(client.guilds);
+        console.log(client.guilds,  '??????-');
 
         var delay = 500;
 
