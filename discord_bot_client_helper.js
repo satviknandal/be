@@ -233,6 +233,37 @@ var get_non_attendance = (msg, control) => {
 
 }
 
+
+var get_astray = (msg, control) => {
+    getGoogleSheet(msg).then((completed) => {
+        var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
+
+        var discordCompletedMembers = getDiscordGuildies(discordGuildMembers, completed);
+
+        var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
+            var ind = discordCompletedMembers.findIndex(complete => {
+                var userName = member && member.user.username ? member.user.username : '';
+                return complete.username === userName;
+            });
+            return ind === -1 ? true : false;
+        });
+
+        var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
+            return '<@' + user.user.id + '>';
+        });
+
+        var spammer = discordUncompletedMembers.join('\n');
+
+        var spamMessage = 'Unfortunately the below list of members have yet to fill RSVP!' + '\n' + spammer;
+
+        console.log('Message : ' + spamMessage);
+        msg.author.send(spamMessage);
+        msg.delete(delay);
+    })
+}
+
+
+
 var get_attendance = (msg, control) => {
     getGoogleSheet(msg).then((completed) => {
         var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
@@ -279,7 +310,6 @@ var get_attendance = (msg, control) => {
 
             });
     })
-
 }
 
 let specMessages = (msg) => {
@@ -352,7 +382,7 @@ var mainFunct = () => {
                     if (right) {
                         var guide = "Tell current time : \n!tell_time" +
                             "\n2)Send Announcements : \n!send_announcements" +
-                            "\n3)Send Reminder : \n!check_members" +
+                            "\n3)Send Reminder : \n!remind_members" +
                             "\n4)Warn Members : \n!warn_members" +
                             "\n5)Remind Vacationers : \n!send_vacation";
                         msg.delete(delay);
@@ -372,7 +402,7 @@ var mainFunct = () => {
             })
         }
 
-        if (msg.content === '!check_members') {
+        if (msg.content === '!remind_members') {
             specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
                     get_attendance(msg);
@@ -400,15 +430,27 @@ var mainFunct = () => {
         if (msg.content === '!read_settings') {
             specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
-                    readSettings(settings_workSheet).then((ws)=>{
-                        console.log(ws[0]);
+                    readSettings(settings_workSheet).then((ws) => {
+                        msg.author.send("LINK : " + (ws[0] && ws[0].g_forms_link ? ws[0].g_forms_link : '') + "\n" +
+                            "Updated : " + (ws[0] && ws[0].updated ? ws[0].updated : ''));
                         msg.delete(delay);
                     });
                 })
             })
         }
-    }
 
+        if (msg.content === '!check_attendance') {
+            specMessages(msg).then((res) => {
+                checkAdminRights(msg).then((right) => {
+
+
+
+
+                })
+            })
+        }
+
+    }
 
     return this;
 }
