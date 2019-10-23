@@ -29,7 +29,7 @@ var init = (settings) => {
     return new Promise((resolve, reject) => {
 
         setting = settings;
-        siegeMember = "<@" + settings.Event_Role_ID + ">";
+        siegeMember = "<@&" + settings.Event_Role_ID + ">";
         me = "<@" + settings.Developer_ID + ">";
         client = settings.dis_client;
 
@@ -65,7 +65,9 @@ var readSettings = (work_Sheet) => {
 }
 
 var sendForms = () => {
+    console.log(setting.workSheet);
     readSettings(setting.workSheet).then((ws) => {
+        console.log('ws', ws)
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
     })
