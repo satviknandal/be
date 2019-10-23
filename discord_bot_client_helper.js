@@ -259,8 +259,8 @@ var get_astray = (msg, control) => {
         var spamMessage = 'Unfortunately the below list of members have yet to fill RSVP!' + '\n' + spammer;
 
         console.log('Message : ' + spamMessage);
-        msg.author.send(spamMessage);
         msg.delete(delay);
+        msg.author.send(spamMessage);
     })
 }
 
