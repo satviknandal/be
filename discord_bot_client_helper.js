@@ -233,7 +233,7 @@ var get_non_attendance = (msg, control) => {
 }
 
 var get_attendance = (msg, control) => {
-
+    console.log(client.guilds);
     getGoogleSheet(msg).then((completed) => {
         var discordGuildMembers = client.guilds.get(setting.guild_Discord_ID).roles.find("id", setting.Event_Role_ID).members;
 
@@ -322,7 +322,7 @@ var mainFunct = () => {
 
         client = dis_client;
 
-        console.log(client);
+        console.log(client.guilds);
 
         var delay = 500;
 
