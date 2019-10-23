@@ -401,7 +401,8 @@ var mainFunct = () => {
         if (msg.content === '!read_settings') {
             specMessages(msg).then((res) => {
                 checkAdminRights(msg).then((right) => {
-                    readSettings(settings_workSheet).then(()=>{
+                    readSettings(settings_workSheet).then((ws)=>{
+                        console.log(ws[0]);
                         msg.delete(delay);
                     });
                 })
