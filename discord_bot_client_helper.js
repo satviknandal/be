@@ -12,12 +12,14 @@ var db_helper = db();
 let setting;
 
 let sheet;
-let workSheet;
+let settings_workSheet;
 
 let siegeMember;
 
 let me;
 let client;
+
+let event_google_sheet = "0";
 
 var readFile = (path) => {
     var rawdata = fs.readFileSync(path);
@@ -36,9 +38,8 @@ var init = (settings) => {
 
         db_helper.configuration_first_row(settings.ID).then((cRow) => {
             sheet = cRow.Sheet;
-            workSheet = cRow.WorkSheet;
+            settings_workSheet = cRow.Settings_WorkSheet;
             //setTimeout if needed
-            console.log(workSheet);
             resolve(true);
         })
     })
@@ -65,8 +66,7 @@ var readSettings = (work_Sheet) => {
 }
 
 var sendForms = () => {
-    console.log(workSheet);
-    readSettings(workSheet).then((ws) => {
+    readSettings(settings_workSheet).then((ws) => {
         console.log('ws', ws)
         var workS = ws[0];
         client.channels.get(setting.Announcement_Channel_ID).send(siegeMember + ' Forms for the week have been updated on ' + workS.updated + ', and here they are! \n' + workS.g_forms_link);
@@ -161,7 +161,7 @@ var getGoogleSheet = (msg) => {
 
     return new Promise((resolve, reject) => {
 
-        readSettings("0").then((completed) => {
+        readSettings(event_google_sheet).then((completed) => {
             resolve(completed);
         }).catch((err) => {
             console.log(err);
@@ -258,7 +258,7 @@ var get_attendance = (msg, control) => {
 
         var spammer = discordUncompletedMembers.join('\n');
 
-        readSettings(workSheet).then((ws) => {
+        readSettings(settings_workSheet).then((ws) => {
             var workS = ws[0];
 
             var spamMessage =
