@@ -361,9 +361,11 @@ var mainFunct = () => {
     }
 
 
-    this.messageHandler = (msg) => {
+    this.messageHandler = (msg, dis_client) => {
 
         let sh = new scheduler_helper();
+
+        sh.client = dis_client;
 
         if (msg.content === '!best_sea_guild?') {
             msg.channel.send('The highest leveled player in SEA is in?...');
