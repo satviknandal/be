@@ -103,10 +103,13 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 }
 
 var scheduler = () => {
-    console.log('SCHEDULER EVENT ID : ', setting.ID);
-    db_helper.schedule_all_rows(setting.ID).then((sRows) => {
-        sRows.forEach((sRow) => {
-            schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
+    init(settings).then((res) => {
+        console.log('SCHEDULER EVENT ID : ', setting.ID);
+        db_helper.schedule_all_rows(setting.ID).then((sRows) => {
+            sRows.forEach((sRow) => {
+                schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
+            })
+            console.log(`Setup complete for ${client.user.tag} on G_ID : ${setting.guildID} & E_ID : ${setting.ID}`);
         })
     })
 }
@@ -346,17 +349,12 @@ let specMessages = (msg) => {
 
 
 var mainFunct = () => {
-    this.scheduler = (settings) => {
-        init(settings).then((res) => {
-            scheduler();
-            console.log(`Setup complete for ${client.user.tag} on G_ID : ${setting.guildID} & E_ID : ${setting.ID}`);
-        })
+    this.setupScheduler = (settings) => {
+        scheduler(settings);
     }
 
 
     this.messageHandler = (msg, dis_client) => {
-
-
 
         if (msg.content === '!best_sea_guild?') {
             msg.channel.send('The highest leveled player in SEA is in?...');

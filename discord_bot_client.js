@@ -32,7 +32,7 @@ var mainFunct = async () => {
                         dis_client : client
                     }
                     var discord_client_helper = discord_Helper();
-                    discord_client_helper.scheduler(settings);
+                    discord_client_helper.setupScheduler(settings);
                 })
             })
         })
