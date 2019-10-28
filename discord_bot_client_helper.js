@@ -77,6 +77,7 @@ class scheduler_helper {
 
     testMessage = () => {
         this.readSettings(this.settings_workSheet).then(() => {
+            console.log(`Test Message Scheduled for : ${this.client.user.tag} on G_ID : ${this.setting.guildID} & E_ID : ${this.setting.ID}`)
             this.client.channels.get(this.setting.Announcement_Channel_ID).send('TEST MESSAGE');
         })
             .catch(() => {
