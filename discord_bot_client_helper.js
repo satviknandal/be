@@ -283,7 +283,7 @@ class scheduler_helper {
 
     get_attendance = (msg, control) => {
         this.getGoogleSheet(msg).then((completed) => {
-            console.log(this.setting.guild_Discord_ID);
+            console.log(this.client.guilds.get(this.setting.guild_Discord_ID));
             var discordGuildMembers = this.client.guilds.get(this.setting.guild_Discord_ID).roles.find("id", this.setting.Event_Role_ID).members;
 
             var discordCompletedMembers = this.getDiscordGuildies(discordGuildMembers, completed);
