@@ -78,7 +78,8 @@ var sendForms = () => {
 
 
 var schedulerController = (rule, control) => {
-    var sche = schedule.scheduleJob(rule, function () {
+    console.log('SCHEDULER', rule, setting);
+    var sche = schedule.scheduleJob(rule, () => {
         if (control && control === 'initial') {
             sendForms();
         }
@@ -103,7 +104,6 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 var scheduler = () => {
     db_helper.schedule_all_rows(setting.ID).then((sRows) => {
         sRows.forEach((sRow) => {
-            console.log('SCHEDULER', sRow);
             schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
         })
     })
