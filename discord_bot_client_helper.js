@@ -103,6 +103,7 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 var scheduler = () => {
     db_helper.schedule_all_rows(setting.ID).then((sRows) => {
         sRows.forEach((sRow) => {
+            console.log('SCHEDULER', sRow);
             schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
         })
     })
@@ -353,7 +354,7 @@ var mainFunct = () => {
 
     this.messageHandler = (msg, dis_client) => {
 
-        
+
 
         if (msg.content === '!best_sea_guild?') {
             msg.channel.send('The highest leveled player in SEA is in?...');
