@@ -43,7 +43,6 @@ class scheduler_helper {
 
             this.siegeMember = "<@&" + settings.Event_Role_ID + ">";
             this.me = "<@" + settings.Developer_ID + ">";
-            console.log('CLIENT : ', settings.dis_client.user.tag);
             this.client = settings.dis_client;
 
 
@@ -87,7 +86,6 @@ class scheduler_helper {
 
 
     schedulerController = (rule, control) => {
-        console.log('SCHEDULER', this.setting.ID, 'control : ' + control);
         schedule.scheduleJob(rule, () => {
             if (control && control === 'initial') {
                 this.sendForms();
@@ -112,7 +110,6 @@ class scheduler_helper {
 
     scheduler = (settings) => {
         this.init(settings).then(() => {
-            console.log('SCHEDULER EVENT ID : ', this.setting.ID);
             this.db_helper.schedule_all_rows(this.setting.ID).then((sRows) => {
                 sRows.forEach((sRow) => {
                     this.schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
@@ -214,8 +211,6 @@ class scheduler_helper {
 
             let b_nickname = b.nickname ? b.nickname : b.user.username;
 
-            console.log(a, b);
-
             return (a_nickname > b_nickname) ? 1 : ((b_nickname > a_nickname) ? -1 : 0)
         });
     }
@@ -232,8 +227,6 @@ class scheduler_helper {
             })
 
             var discordNonAttendees = this.getDiscordGuildies(discordGuildMembers, non_attendees);
-
-            console.log('Non Attendees : ', discordNonAttendees);
 
             var discordNonAttendeeMembers = this.get_sorted_discord(discordNonAttendees).map((user) => {
                 return '<@' + user.user.id + '>';
@@ -296,7 +289,6 @@ class scheduler_helper {
 
     get_attendance = (msg, control) => {
         this.getGoogleSheet(msg).then((completed) => {
-            console.log(this.client.user.tag);
             var discordGuildMembers = this.client.guilds.get(this.setting.guild_Discord_ID).roles.find("id", this.setting.Event_Role_ID).members;
 
             var discordCompletedMembers = this.getDiscordGuildies(discordGuildMembers, completed);
@@ -432,7 +424,6 @@ var mainFunct = () => {
 
         if (msg.content === '!remind_members') {
             sh.specMessages(msg).then(() => {
-                console.log(sh.client.user.tag);
                 sh.checkAdminRights(msg).then(() => {
                     sh.get_attendance(msg);
                 })
