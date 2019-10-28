@@ -1,6 +1,6 @@
 var auth = require('./auth.json');
 const Discord = require('discord.js');
-const discord_Helper = require('./discord_bot_client_helper');
+const discord_Helper = require('./discord_bot_client_helper').default;
 var atob = require('atob');
 var schedule = require('node-schedule');
 const fs = require('fs');
