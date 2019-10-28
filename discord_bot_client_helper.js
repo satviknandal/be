@@ -75,6 +75,15 @@ class scheduler_helper {
         return prom;
     }
 
+    testMessage = () => {
+        this.readSettings(this.settings_workSheet).then(() => {
+            this.client.channels.get(this.setting.Announcement_Channel_ID).send('TEST MESSAGE');
+        })
+            .catch(() => {
+            });
+
+    }
+
     sendForms = () => {
         this.readSettings(this.settings_workSheet).then((ws) => {
             var workS = ws[0];
@@ -93,9 +102,13 @@ class scheduler_helper {
             if (control && control === 'vacation') {
                 this.get_non_attendance(null, control);
             }
+            if (control && control === 'test') {
+                this.testMessage();
+            }
             else {
                 this.get_attendance(null, control);
             }
+
         });
 
     }
