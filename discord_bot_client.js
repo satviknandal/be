@@ -29,9 +29,9 @@ var mainFunct = async () => {
                         guildID: gRow.ID,
                         guild_Discord_ID: gRow.Discord_ID,
                         Developer_ID: gRow.Developer_ID,
-                        dis_client : client
+                        dis_client: client
                     }
-                    var discord_client_helper = discord_Helper();
+                    var discord_client_helper = new discord_Helper();
                     discord_client_helper.setupScheduler(settings);
                 })
             })
@@ -41,7 +41,7 @@ var mainFunct = async () => {
 
     // accept all messages from all guilds
     client.on('message', async (msg) => {
-        var discord_client_helper = discord_Helper();
+        var discord_client_helper = new discord_Helper();
         discord_client_helper.messageHandler(msg, client);
     })
 
