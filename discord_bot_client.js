@@ -1,6 +1,6 @@
 var auth = require('./auth.json');
 const Discord = require('discord.js');
-const discord_Helper = require('./discord_bot_client_helper').default;
+const discord_Helper = require('./discord_bot_client_helper');
 var atob = require('atob');
 var schedule = require('node-schedule');
 const fs = require('fs');
@@ -31,7 +31,7 @@ var mainFunct = async () => {
                         Developer_ID: gRow.Developer_ID,
                         dis_client: client
                     }
-                    var discord_client_helper = new discord_Helper();
+                    var discord_client_helper = discord_Helper();
                     discord_client_helper.setupScheduler(settings);
                 })
             })
@@ -41,7 +41,7 @@ var mainFunct = async () => {
 
     // accept all messages from all guilds
     client.on('message', async (msg) => {
-        var discord_client_helper = new discord_Helper();
+        var discord_client_helper = discord_Helper();
         discord_client_helper.messageHandler(msg, client);
     })
 
