@@ -157,9 +157,8 @@ class scheduler_helper {
             )
                 .map((member) => {
                     return {
-                        'username': member.user && member.user.username && member.user.username.startsWith('[') ? 
-                                    member.user.username : (member.nickname && member.nickname.startsWith('[') ? member.nickname : ''),
                         'user': {
+                            'username': member.user.username,
                             'id': member.user.id
                         }
                         // member.user.username.includes('[') && member.user.username.includes(']') ? member.user.username :  
@@ -208,7 +207,7 @@ class scheduler_helper {
 
 
     get_sorted_discord = (discordList) => {
-        return discordList.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0));
+        return discordList.sort((a, b) => (a.user.username > b.user.username) ? 1 : ((b.user.username > a.user.username) ? -1 : 0));
     }
 
 
@@ -264,7 +263,7 @@ class scheduler_helper {
             var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
-                    return complete.username === userName;
+                    return complete.user.username === userName;
                 });
                 return ind === -1 ? true : false;
             });
@@ -295,7 +294,7 @@ class scheduler_helper {
             var discordUncompletedMembers_raw = discordGuildMembers.filter((member) => {
                 var ind = discordCompletedMembers.findIndex(complete => {
                     var userName = member && member.user.username ? member.user.username : '';
-                    return complete.username === userName;
+                    return complete.user.username === userName;
                 });
                 return ind === -1 ? true : false;
             });
