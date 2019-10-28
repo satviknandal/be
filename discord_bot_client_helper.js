@@ -1,17 +1,18 @@
-import { Client } from 'discord.js';
-import atob from 'atob';
-import { scheduleJob, RecurrenceRule } from 'node-schedule';
-import { readFileSync, writeFileSync } from 'fs';
-import gsjson from 'google-spreadsheet-to-json';
-import { json } from './google-generated-creds.json';
-import db from './db_helper';
+var auth = require('./auth.json');
+const Discord = require('discord.js');
+var atob = require('atob');
+var schedule = require('node-schedule');
+const fs = require('fs');
+var gsjson = require('google-spreadsheet-to-json');
+var creds = require('./google-generated-creds.json');
+const db = require('./db_helper');
 
 
 
 class scheduler_helper {
     constructor() {
         this.db_helper = db();
-        this.client = new Client();
+        this.client = new Discord.Client();
     }
 
     db_helper;
@@ -31,7 +32,7 @@ class scheduler_helper {
     delay = 500;
 
     readFile = (path) => {
-        var rawdata = readFileSync(path);
+        var rawdata = fs.readFileSync(path);
         var obj = JSON.parse(rawdata);
         return obj;
     }
@@ -60,11 +61,11 @@ class scheduler_helper {
 
     writeFile = (obj, path) => {
         let data = JSON.stringify(obj);
-        writeFileSync(path, data);
+        fs.writeFileSync(path, data);
     }
 
     readSettings = (work_Sheet) => {
-        var credentials = atob(json);
+        var credentials = atob(creds.json);
 
         let prom = gsjson({
             spreadsheetId: this.sheet,
@@ -89,7 +90,7 @@ class scheduler_helper {
 
     schedulerController = (rule, control) => {
         console.log('SCHEDULER', this.setting.ID, 'control : ' + control);
-       scheduleJob(rule, () => {
+       schedule.scheduleJob(rule, () => {
             if (control && control === 'initial') {
                 this.sendForms();
             }
@@ -104,7 +105,7 @@ class scheduler_helper {
     }
 
     schedulerProcess = (dayOfWeek, hour, minute, control) => {
-        var rule = new RecurrenceRule();
+        var rule = new schedule.RecurrenceRule();
         rule.dayOfWeek = dayOfWeek;
         rule.hour = hour;
         rule.minute = minute;
@@ -468,4 +469,4 @@ var mainFunct = () => {
 }
 
 // eslint-disable-next-line no-undef
-export default mainFunct;
+module.exports = mainFunct;
