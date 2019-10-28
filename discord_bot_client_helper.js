@@ -399,7 +399,6 @@ var mainFunct = () => {
                             "\n5)Remind Vacationers : \n!send_vacation";
                         msg.delete(sh.delay);
                         msg.channel.send(guide);
-                        msg.delete(10000);
                     }
                 })
             })
