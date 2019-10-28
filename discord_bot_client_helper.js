@@ -78,7 +78,7 @@ var sendForms = () => {
 
 
 var schedulerController = (rule, control) => {
-    console.log('SCHEDULER', setting, 'control : ' + control);
+    console.log('SCHEDULER', setting.ID, 'control : ' + control);
     var sche = schedule.scheduleJob(rule, () => {
         if (control && control === 'initial') {
             sendForms();
