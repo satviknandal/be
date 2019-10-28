@@ -102,6 +102,7 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
 }
 
 var scheduler = () => {
+    console.log('SCHEDULER EVENT ID : ', setting.ID);
     db_helper.schedule_all_rows(setting.ID).then((sRows) => {
         sRows.forEach((sRow) => {
             schedulerProcess(sRow.DayOfWeek, sRow.Hour, sRow.Minute, sRow.Control);
