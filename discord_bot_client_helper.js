@@ -398,9 +398,8 @@ var mainFunct = () => {
                             "\n4)Warn Members : \n!warn_members" +
                             "\n5)Remind Vacationers : \n!send_vacation";
                         msg.delete(sh.delay);
-                        msg.channel.send(guide).then((ms) => {
-                            ms.delete(7000);
-                        });
+                        msg.channel.send(guide);
+                        msg.delete(10000);
                     }
                 })
             })
