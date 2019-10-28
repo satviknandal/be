@@ -89,7 +89,7 @@ class scheduler_helper {
 
     schedulerController = (rule, control) => {
         console.log('SCHEDULER', this.setting.ID, 'control : ' + control);
-       schedule.scheduleJob(rule, () => {
+        schedule.scheduleJob(rule, () => {
             if (control && control === 'initial') {
                 this.sendForms();
             }
@@ -332,7 +332,7 @@ class scheduler_helper {
     specMessages = (msg) => {
 
         return new Promise((resolve) => {
-
+            console.log(this.db_helper);
             this.db_helper.guild_event_first_row({
                 a: msg.guild.id,
                 b: msg.channel.id
