@@ -11,7 +11,6 @@ const db = require('./db_helper');
 class scheduler_helper {
     constructor() {
         this.db_helper = db();
-        this.client = new Discord.Client();
     }
 
     db_helper;
@@ -39,12 +38,12 @@ class scheduler_helper {
     init = (settings) => {
         return new Promise((resolve) => {
             this.setting = null;
-            console.log(this.setting ? this.setting.ID : 'Unassigned' + ' BEFORE VS ' + settings.ID);
+
             this.setting = settings;
-            console.log(this.setting.ID + ' VS ' + settings.ID);
+
             this.siegeMember = "<@&" + settings.Event_Role_ID + ">";
             this.me = "<@" + settings.Developer_ID + ">";
-            delete this.client;
+            console.log('CLIENT : ',  settings.dis_client.user.tag);
             this.client = settings.dis_client;
 
 
