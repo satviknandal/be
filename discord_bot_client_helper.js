@@ -32,6 +32,7 @@ var readFile = (path) => {
 var init = (settings) => {
     return new Promise((resolve, reject) => {
         setting = null;
+        console.log(setting.ID + ' BEFORE VS ' + settings.ID);
         setting = settings;
         console.log(setting.ID + ' VS ' + settings.ID);
         siegeMember = "<@&" + settings.Event_Role_ID + ">";
