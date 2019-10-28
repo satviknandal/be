@@ -330,14 +330,11 @@ class scheduler_helper {
     }
 
     specMessages = (msg) => {
-        console.log(msg.guild.id, msg.channel.id);
         return new Promise((resolve) => {
-            console.log(this.db_helper);
             this.db_helper.guild_event_first_row({
                 a: msg.guild.id,
                 b: msg.channel.id
             }).then((geRow) => {
-                console.log(geRow);
                 let settings = {
                     ID: geRow.EventID,
                     Announcement_Channel_ID: geRow.Announcement_Channel_ID,
@@ -401,7 +398,9 @@ var mainFunct = () => {
                             "\n4)Warn Members : \n!warn_members" +
                             "\n5)Remind Vacationers : \n!send_vacation";
                         msg.delete(sh.delay);
-                        msg.channel.send(guide);
+                        msg.channel.send(guide).then((ms) => {
+                            ms.delete(7000);
+                        });
                     }
                 })
             })
