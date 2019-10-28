@@ -157,6 +157,7 @@ class scheduler_helper {
             )
                 .map((member) => {
                     return {
+                        'nickname': member && member.nickname ? member.nickname : '',
                         'user': {
                             'username': member.user.username,
                             'id': member.user.id
@@ -207,8 +208,16 @@ class scheduler_helper {
 
 
     get_sorted_discord = (discordList) => {
-        console.log(discordList);
-        return discordList.sort((a, b) => (a.user.username > b.user.username) ? 1 : ((b.user.username > a.user.username) ? -1 : 0));
+        return discordList.sort((a, b) => {
+
+            let a_nickname = a.nickname ? a.nickname : a.user.usename;
+
+            let b_nickname = b.nickname ? b.nickname : b.user.username;
+
+            console.log(a, b);
+
+            return (a_nickname > b_nickname) ? 1 : ((b_nickname > a_nickname) ? -1 : 0)
+        });
     }
 
 
