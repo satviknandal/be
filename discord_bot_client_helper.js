@@ -8,7 +8,6 @@ var creds = require('./google-generated-creds.json');
 const db = require('./db_helper');
 
 
-
 class scheduler_helper {
     constructor() {
         this.db_helper = db();
