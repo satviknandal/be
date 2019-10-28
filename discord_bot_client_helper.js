@@ -102,7 +102,7 @@ var schedulerProcess = (dayOfWeek, hour, minute, control) => {
     schedulerController(rule, control);
 }
 
-var scheduler = () => {
+var scheduler = (settings) => {
     init(settings).then((res) => {
         console.log('SCHEDULER EVENT ID : ', setting.ID);
         db_helper.schedule_all_rows(setting.ID).then((sRows) => {
