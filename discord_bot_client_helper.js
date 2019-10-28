@@ -43,7 +43,7 @@ class scheduler_helper {
 
             this.siegeMember = "<@&" + settings.Event_Role_ID + ">";
             this.me = "<@" + settings.Developer_ID + ">";
-            console.log('CLIENT : ',  settings.dis_client.user.tag);
+            console.log('CLIENT : ', settings.dis_client.user.tag);
             this.client = settings.dis_client;
 
 
@@ -331,7 +331,7 @@ class scheduler_helper {
 
     specMessages = (msg) => {
         return new Promise((resolve) => {
-            this.db_helper.guild_event_first_row({
+            return this.db_helper.guild_event_first_row({
                 a: msg.guild.id,
                 b: msg.channel.id
             }).then((geRow) => {
@@ -346,7 +346,7 @@ class scheduler_helper {
                     dis_client: this.client
                 }
 
-                this.init(settings).then((res) => {
+                return this.init(settings).then((res) => {
                     resolve(res);
                 })
             })
@@ -416,6 +416,7 @@ var mainFunct = () => {
 
         if (msg.content === '!remind_members') {
             sh.specMessages(msg).then(() => {
+                console.log(sh.client.user.tag);
                 sh.checkAdminRights(msg).then(() => {
                     sh.get_attendance(msg);
                 })
