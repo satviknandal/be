@@ -227,7 +227,7 @@ class scheduler_helper {
 
             var spammer = discordNonAttendeeMembers.join('\n');
 
-            this.readSettings().then((ws) => {
+            this.readSettings(this.settings_workSheet).then((ws) => {
                 var workS = ws[0];
 
                 var spamMessage = 'Thank you for filling RSVP ' + workS.updated + ' for the week!\n' +
