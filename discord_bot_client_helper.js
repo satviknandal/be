@@ -31,7 +31,7 @@ var readFile = (path) => {
 
 var init = (settings) => {
     return new Promise((resolve, reject) => {
-
+        setting = null;
         setting = settings;
         siegeMember = "<@&" + settings.Event_Role_ID + ">";
         me = "<@" + settings.Developer_ID + ">";
@@ -348,7 +348,7 @@ var mainFunct = () => {
     this.scheduler = (settings) => {
         init(settings).then((res) => {
             scheduler();
-            console.log(`Setup complete for ${client.user.tag} on G_ID : ${settings.guildID} & E_ID : ${settings.ID}`);
+            console.log(`Setup complete for ${client.user.tag} on G_ID : ${setting.guildID} & E_ID : ${setting.ID}`);
         })
     }
 
