@@ -207,6 +207,7 @@ class scheduler_helper {
 
 
     get_sorted_discord = (discordList) => {
+        console.log(discordList);
         return discordList.sort((a, b) => (a.user.username > b.user.username) ? 1 : ((b.user.username > a.user.username) ? -1 : 0));
     }
 
