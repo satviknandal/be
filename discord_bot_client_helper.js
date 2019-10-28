@@ -157,7 +157,8 @@ class scheduler_helper {
             )
                 .map((member) => {
                     return {
-                        'username': member.user.username,
+                        'username': member.user && member.user.username && member.user.username.startsWith('[') ? 
+                                    member.user.username : (member.nickname && member.nickname.startsWith('[') ? member.nickname : ''),
                         'user': {
                             'id': member.user.id
                         }
@@ -206,6 +207,10 @@ class scheduler_helper {
     }
 
 
+    get_sorted_discord = (discordList) => {
+        return discordList.sort((a, b) => (a.username > b.username) ? 1 : ((b.username > a.username) ? -1 : 0));
+    }
+
 
     get_non_attendance = (msg) => {
 
@@ -221,7 +226,7 @@ class scheduler_helper {
 
             console.log('Non Attendees : ', discordNonAttendees);
 
-            var discordNonAttendeeMembers = discordNonAttendees.map((user) => {
+            var discordNonAttendeeMembers = this.get_sorted_discord(discordNonAttendees).map((user) => {
                 return '<@' + user.user.id + '>';
             });
 
@@ -264,7 +269,7 @@ class scheduler_helper {
                 return ind === -1 ? true : false;
             });
 
-            var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
+            var discordUncompletedMembers = this.get_sorted_discord(discordUncompletedMembers_raw).map((user) => {
                 return '<@' + user.user.id + '>';
             });
 
@@ -299,7 +304,7 @@ class scheduler_helper {
             //     return member && member.user && member.user.username && member.user.username.toString().includes('Thervi') ? member.user.username : ''
             // }));
 
-            var discordUncompletedMembers = discordUncompletedMembers_raw.map((user) => {
+            var discordUncompletedMembers = this.get_sorted_discord(discordUncompletedMembers_raw).map((user) => {
                 return '<@' + user.user.id + '>';
             });
 
